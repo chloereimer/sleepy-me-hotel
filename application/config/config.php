@@ -14,7 +14,21 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+if (defined('ENVIRONMENT'))
+{
+  switch (ENVIRONMENT)
+  {
+    case 'development':
+      $config['base_url'] = 'http://localhost:8888/sleepy-me-hotel/';
+    break;
+    case 'production':
+      $config['base_url'] = '';
+    break;
+    default:
+      $config['base_url'] = '';
+    break;
+  }
+}
 
 /*
 |--------------------------------------------------------------------------

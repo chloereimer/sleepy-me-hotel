@@ -64,7 +64,9 @@ $autoload['libraries'] = array('template');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
+// I know we're not supposed to autoload the assets helper in lab 1; see my note
+// in controllers/home/php!
+$autoload['helper'] = array('url','assets');
 
 
 /*
@@ -80,7 +82,7 @@ $autoload['helper'] = array();
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('assets');
 
 
 /*
