@@ -1,0 +1,9 @@
+.site-main{
+
+  @include grid-row();
+
+  .content{
+    @include grid-column(12);
+  }
+
+}

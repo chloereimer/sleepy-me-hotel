@@ -1,0 +1,11 @@
+.site-header{
+  
+  @include grid-row();
+
+  .brand{
+    @include grid-column(12);
+    font-size: 4rem;
+    font-weight: 700
+  }
+
+}

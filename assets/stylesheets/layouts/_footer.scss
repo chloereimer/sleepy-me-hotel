@@ -1,0 +1,9 @@
+.site-footer{
+
+  @include grid-row();
+
+  .statement-of-authorship{
+    @include grid-column(12);
+  }
+
+}
