@@ -8,9 +8,7 @@
   <title><?php echo isset($title) ? "$title – Sleepy-Me Hotel" : "Sleepy-Me Hotel"; ?></title>
 </head>
 <body>
-<div>
-  <header class="site-header">
-    <h1 class="brand">Sleepy-Me Hotel</h1>
-  </header>
-</div>
+<header class="site-header">
+  <h1 class="brand">Sleepy-Me Hotel</h1>
+</header>
 <main class="site-main">
