@@ -10,5 +10,14 @@
 <body>
 <header class="site-header">
   <h1 class="brand">Sleepy-Me Hotel</h1>
+  <nav class="navigation">
+    <ul>
+      <li><a href="<?php echo base_url('/') ?>">Home</a></li>
+      <li><a href="<?php echo base_url('/rooms') ?>">Rooms & Rates</a></li>
+      <li><a href="<?php echo base_url('/reservations') ?>">Reservations</a></li>
+      <li><a href="<?php echo base_url('/contact') ?>">Contact Us</a></li>
+      <li><a href="<?php echo base_url('/admin') ?>">Admin</a></li>
+    </ul>
+  </nav>
 </header>
 <main class="site-main">

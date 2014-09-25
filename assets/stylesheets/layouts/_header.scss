@@ -3,9 +3,21 @@
   @include grid-row();
 
   .brand{
-    @include grid-column(12);
+    @include grid-column(4);
     font-size: 4rem;
     font-weight: 700
+  }
+
+  .navigation{
+    
+    @include grid-column(8);
+
+    ul{
+
+      @include inline-list();
+
+    }
+
   }
 
 }
