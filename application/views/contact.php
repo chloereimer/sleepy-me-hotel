@@ -9,3 +9,7 @@
   <?php echo form_submit( array( 'class' => 'button' ), 'Submit' ) ?>
 
 <?php echo form_close(); ?>
+
+<div class="flex-video">
+  <div id="map_canvas" style="height: 400px"></div>
+</div>
