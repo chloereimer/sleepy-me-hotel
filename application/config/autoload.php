@@ -66,7 +66,7 @@ $autoload['libraries'] = array('template');
 
 // I know we're not supposed to autoload the assets helper in lab 1; see my note
 // in controllers/home/php!
-$autoload['helper'] = array('url','assets');
+$autoload['helper'] = array('url','assets','humanize');
 
 
 /*
