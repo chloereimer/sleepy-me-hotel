@@ -1,4 +1,4 @@
-<?php echo form_open( base_url('contact/index'), array( 'class' => 'contact-form' ) ); ?>
+<?php echo form_open( site_url('/contact/mail'), array( 'class' => 'contact-form' ) ); ?>
 
   <?php echo foundation_form_input( 'username' ); ?>
   <?php echo foundation_form_input( 'first_name' ); ?>
