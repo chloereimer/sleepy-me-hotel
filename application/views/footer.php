@@ -5,7 +5,7 @@
 <script src="<?php echo javascripts_url('modernizr/modernizr.js'); ?>"></script> <!-- yes yes this should be a custom modernizr eventually -->
 <script src="<?php echo javascripts_url('jquery/jquery.min.js'); ?>"></script>
 <script src="<?php echo javascripts_url('foundation/foundation.min.js'); ?>"></script> <!-- this should probably be a custom foundation too -->
-<script src="http://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
   var map;
   function initializeGoogleMap() {
