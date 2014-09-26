@@ -5,6 +5,7 @@ class Contact extends CI_Controller {
   function __construct(){
     parent::__construct();
     $this->load->helper('form');
+    $this->load->helper('foundation_form');
     $this->load->library('form_validation');
   }
 
