@@ -37,7 +37,7 @@ class Contact extends CI_Controller {
       $this->email->to('000280557@csu.mohawkcollege.ca, jasonhm@csu.mohawkcollege.ca'); 
        
       $this->email->subject('Here\'s Johnny!'); 
-      $this->email->message('Username: ' . set_value('username') . '; Name: ' . set_value('first_name') . ' ' . set_value('last_name') . '; Age: ' . set_value('age') . '; Program: ' . set_value('program') . '; Date: ' . unix_to_human( gmt_to_local( now() , 'UM5' , true ) ) );
+      $this->email->message('Username: ' . set_value('username') . '; Name: ' . set_value('first_name') . ' ' . set_value('last_name') . '; Age: ' . set_value('age') . '; Program: ' . set_value('program') . '; Date: ' . mdate( "%Y/%m/%d" , time() ) );
 
       if( $this->email->send() == false ){
         $this->session->set_flashdata('messageType', 'alert');
