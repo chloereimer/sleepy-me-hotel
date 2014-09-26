@@ -22,7 +22,8 @@
 </header>
 <main class="site-main">
 
-  <?php if ( !empty( $this->session->flashdata('message') ) ) : ?>
+  <?php $message = $this->session->flashdata('message'); ?>
+  <?php if ( !empty( $message ) ) : ?>
     <div class="alert-box <?php $this->session->flashdata('messageType') ?>">
       <?= $this->session->flashdata('message'); ?>
     </div>
