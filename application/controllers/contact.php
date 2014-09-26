@@ -3,27 +3,53 @@
 class Contact extends CI_Controller {
 
   function __construct(){
+
     parent::__construct();
+
     $this->load->helper('form');
     $this->load->helper('foundation_form');
     $this->load->library('form_validation');
+
+    $this->load->library('email'); 
+
+    $this->load->helper('date');
+
   }
 
   public function index()
   {
 
-    $this->form_validation->set_rules( $this->validation_rules() );
-
-    if( $this->form_validation->run() == false ){
-      $this->template->show('contact');
-    } else {
-      $this->template->show('home');
-    }
+    $this->template->show('contact');
 
   }
 
-  public function post()
+  public function mail()
   {
+    $this->form_validation->set_rules( $this->validation_rules() );
+
+    if( $this->form_validation->run() == false ){
+
+      $this->template->show('contact');
+
+    } else {
+
+      $this->email->from('000280557@csu.mohawkcollege.ca', 'Chloe Reimer'); 
+      $this->email->to('000280557@csu.mohawkcollege.ca, jasonhm@csu.mohawkcollege.ca'); 
+       
+      $this->email->subject('Here\'s Johnny!'); 
+      $this->email->message('Username: ' . set_value('username') . '; Name: ' . set_value('first_name') . ' ' . set_value('last_name') . '; Age: ' . set_value('age') . '; Program: ' . set_value('program') . '; Date: ' . unix_to_human( gmt_to_local( now() , 'UM5' , true ) ) );
+
+      if( $this->email->send() == false ){
+        $this->session->set_flashdata('messageType', 'alert');
+        $this->session->set_flashdata('message', 'Email not sent.');
+      } else {
+        $this->session->set_flashdata('messageType', 'success');
+        $this->session->set_flashdata('message', $this->email->print_debugger() );
+      }
+
+      $this->template->show('contact');
+
+    }
 
   }
 
