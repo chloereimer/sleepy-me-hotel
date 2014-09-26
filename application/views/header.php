@@ -21,3 +21,9 @@
   </nav>
 </header>
 <main class="site-main">
+
+  <?php if ( !empty( $this->session->flashdata('message') ) ) : ?>
+    <div class="alert-box <?php $this->session->flashdata('messageType') ?>">
+      <?= $this->session->flashdata('message'); ?>
+    </div>
+  <? endif; ?>
