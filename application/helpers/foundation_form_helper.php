@@ -23,6 +23,12 @@ if (!function_exists('foundation_form_input'))
           }
 
           break;
+
+        case 'text':
+
+          $node .= form_textarea( $name, set_value($name) );
+
+          break;
         
         default:
           # ...

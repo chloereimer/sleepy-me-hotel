@@ -55,52 +55,79 @@ class Contact extends CI_Controller {
 
   private function validation_rules()
   {
+
     $rules = array(
                    array(
-                         'field' => 'username',
-                         'label' => 'Username',
-                         'rules' => 'callback_username_check',
+                         'field' => 'name',
+                         'label' => 'Name',
+                         'rules' => 'trim|required|callback_validate_name',
                          ),
                    array(
-                         'field' => 'first_name',
-                         'label' => 'First Name',
-                         'rules' => 'trim|required|min_length[3]|max_length[25]|xss_clean',
-                         ),
+                         'field' => 'address',
+                         'label' => 'Address',
+                         'rules' => 'trim|required',
+                        ),
                    array(
-                         'field' => 'last_name',
-                         'label' => 'Last Name',
+                         'field' => 'postal_code',
+                         'label' => 'Postal Code',
+                         'rules' => 'trim|required|callback_validate_postal_code',
+                        ),
+                   array(
+                         'field' => 'phone',
+                         'label' => 'Phone',
+                         'rules' => 'trim|required|callback_validate_phone',
+                        ),
+                   array(
+                         'field' => 'email',
+                         'label' => 'Email',
+                         'rules' => 'trim|required|callback_validate_email',
+                        ),
+                   array(
+                         'field' => 'comment',
+                         'label' => 'Comment',
                          'rules' => 'trim|required|xss_clean',
-                         ),
-                   array(
-                         'field' => 'age',
-                         'label' => 'Age',
-                         'rules' => 'trim|required|integer|xss_clean',
-                         ),
-                   array(
-                         'field' => 'program',
-                         'label' => 'Program',
-                         'rules' => 'required|xss_clean',
-                         ),
+                        ),
                    );
     return $rules;
   }
-
-  public function username_check($string)
+  public function validate_name($string)
   {
-
-    $string = trim($string);
-
-    if( empty($string) ){
-      $this->form_validation->set_message('username_check', "%s field is required.");
-      return false;
-    } else if( preg_match('/^[a-zA-z0-9]{3,9}$/',$string) == false ) {
-      $this->form_validation->set_message('username_check', "%s must be between 3 and 9 characters, and must only include letters and numbers."); 
+    if ( str_word_count($string) < 2 ) {
+      $this->form_validation->set_message('validate_name', "The %s field is invalid. Provide your full name.");
       return false;
     } else {
       return true;
     }
+  }
 
+  public function validate_postal_code($string)
+  {
+    if ( preg_match( '/^[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}$/' , $string ) != 1 ) {
+      $this->form_validation->set_message('validate_postal_code', "The %s field is invalid.");
+      return false;
+    } else {
+      return true;
+    }
+  }
 
+  public function validate_phone($string)
+  {
+    if ( preg_match( '/^\(?\d{3}\)? ?\d{3}( |-)?\d{4}$/' , $string ) != 1 ) {
+      $this->form_validation->set_message('validate_phone', "The %s field is invalid.");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public function validate_email($string)
+  {
+    if ( preg_match( '/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$/' , $string ) != 1 ) {
+      $this->form_validation->set_message('validate_phone', "The %s field is invalid.");
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }

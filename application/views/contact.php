@@ -1,10 +1,11 @@
 <?php echo form_open( site_url('/contact/mail'), array( 'class' => 'contact-form' ) ); ?>
 
-  <?php echo foundation_form_input( 'username' ); ?>
-  <?php echo foundation_form_input( 'first_name' ); ?>
-  <?php echo foundation_form_input( 'last_name' ); ?>
-  <?php echo foundation_form_input( 'age' ); ?>
-  <?php echo foundation_form_input( 'program', array( 'as' => 'collection', 'allow_blank' => true, 'collection' => array( 'business' => 'Business', 'technology' => 'Technology', 'environment' => 'Environment' ) ) ); ?>
+  <?php echo foundation_form_input( 'name' ); ?>
+  <?php echo foundation_form_input( 'address' ); ?>
+  <?php echo foundation_form_input( 'postal_code' ); ?>
+  <?php echo foundation_form_input( 'phone' ); ?>
+  <?php echo foundation_form_input( 'email' ); ?>
+  <?php echo foundation_form_input( 'comment' , array( 'as' => 'text' ) ); ?>
 
   <?php echo form_submit( array( 'class' => 'button' ), 'Submit' ) ?>
 
