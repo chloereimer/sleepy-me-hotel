@@ -7,7 +7,7 @@ if (!function_exists('foundation_form_input'))
 
     $isValid = ( form_error($name) ? false : true );
     
-    $node  = "<label class='" . ( $isValid ? "" : " error" ) . "' >" . humanize($name);
+    $node  = "<label>" . humanize($name);
 
     if( !empty( $args['as'] ) ){
 
@@ -42,7 +42,7 @@ if (!function_exists('foundation_form_input'))
 
     }
 
-    $node .= form_error( $name , '<span class="error">', '</span>');
+    $node .= form_error( $name , '<div class="error">', '</div>');
 
     $node .= "</label>";
 

@@ -13,11 +13,16 @@
     <li><a href="<?php echo site_url('/rooms') ?>">Rooms & Rates</a></li>
     <li><a href="<?php echo site_url('/reservations') ?>">Reservations</a></li>
     <li><a href="<?php echo site_url('/contact') ?>">Contact Us</a></li>
-    <li><a href="<?php echo site_url('/admin') ?>">Admin</a></li>
+    <li class="admin"><a href="<?php echo site_url('/admin') ?>">Admin</a></li>
   </ul>
 </nav>
 <header class="site-header">
-  <h1 class="brand">Sleepy-Me Hotel</h1>
+  <h1 class="brand">
+    <div class="logo-container">
+      <div class="sleepy-me">Sleepy-Me</div>
+      <div class="hotel">Hotel</div>
+    </div>
+  </h1>
 </header>
 <main class="site-main">
 

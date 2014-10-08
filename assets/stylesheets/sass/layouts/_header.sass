@@ -1,5 +1,45 @@
 .site-header
 
+  position: relative
+
+  background-image: linear-gradient( to bottom, transparentize( $sleepy_black, 0.2 ), transparentize( $sleepy_black, 0.2 ) ), url('../../assets/images/hotel_front.jpg')
+  background-position: center
+  height: rem(260)
+
   .brand
 
     +outer-container()
+
+  .logo-container
+
+    position: absolute
+
+    bottom: 1.25rem
+
+    display: inline-block
+
+    border: 5px solid transparentize( $sleepy_white, 0.30)
+
+    +pad( 1.25rem 1rem )
+
+    background: $sleepy_white
+    background-clip: padding-box
+
+    color: $sleepy_black
+
+    text-transform: uppercase
+
+  .sleepy-me,
+  .hotel
+    line-height: 1
+
+  .sleepy-me
+
+    font-weight: 300
+    font-size: 1.25rem
+    letter-spacing: rem(6)
+
+  .hotel
+
+    font-weight: 300
+    font-size: 3rem

@@ -1,0 +1,22 @@
+.site-footer
+
+  +pad(5rem 0)
+
+  background: desaturate( lighten( $sleepy_black , 5% ), 5% )
+  color: desaturate( lighten( $sleepy_black , 25% ), 10% )
+
+  font-size: rem(12)
+  text-transform: uppercase
+
+  &.sticky-bottom
+
+    position: fixed
+    bottom: 0
+    left: 0
+    right: 0
+
+  .statement-of-authorship
+
+    +outer-container()
+
+    margin-bottom: 0
