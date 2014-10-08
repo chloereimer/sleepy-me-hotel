@@ -1,20 +1,17 @@
 .site-header
 
-  position: relative
+  border-bottom: 5px solid transparentize( $sleepy_black, 0.3 )
+
+  +pad( 2rem 0 )
 
   background-image: linear-gradient( to bottom, transparentize( $sleepy_black, 0.2 ), transparentize( $sleepy_black, 0.2 ) ), url('../../assets/images/hotel_front.jpg')
   background-position: center
-  height: rem(260)
 
   .brand
 
     +outer-container()
 
   .logo-container
-
-    position: absolute
-
-    bottom: 1.25rem
 
     display: inline-block
 
