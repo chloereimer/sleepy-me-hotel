@@ -4,7 +4,6 @@
 </footer>
 <script src="<?php echo javascripts_url('modernizr/modernizr.js'); ?>"></script> <!-- yes yes this should be a custom modernizr eventually -->
 <script src="<?php echo javascripts_url('jquery/jquery.min.js'); ?>"></script>
-<script src="<?php echo javascripts_url('foundation/foundation.min.js'); ?>"></script> <!-- this should probably be a custom foundation too -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
   var map;
@@ -18,7 +17,6 @@
 </script>
 <script>
   $(document).ready(function(){
-    $(document).foundation();
     initializeGoogleMap();
   });
 </script>
