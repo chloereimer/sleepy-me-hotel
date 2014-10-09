@@ -36,7 +36,7 @@
 
   <?php $message = $this->session->flashdata('message'); ?>
   <?php if ( !empty( $message ) ) : ?>
-    <div class="alert-box <?php $this->session->flashdata('messageType') ?>">
+    <div class="alert page-alert <?php echo $this->session->flashdata('messageType') ?>">
       <?= $this->session->flashdata('message'); ?>
     </div>
   <? endif; ?>

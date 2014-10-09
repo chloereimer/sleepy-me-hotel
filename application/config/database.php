@@ -46,14 +46,14 @@
 */
 
 $active_group = 'default';
-$active_record = FALSE;
+$active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = $_ENV['DB_USER'];
 $db['default']['password'] = $_ENV['DB_PASS'];
 $db['default']['database'] = $_ENV['DB_NAME'];
 $db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = 'sleepy';
+$db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;

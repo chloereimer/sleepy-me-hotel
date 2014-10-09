@@ -12,7 +12,7 @@
 
       <div class="rate"><?php echo money_format('%=i.2n/night', $room['rate']); ?></div>
 
-      <p class="description"><?php echo $room['description']; ?></p>
+      <div class="description"><?php echo $room['description']; ?></div>
 
     </article>
   <?php endforeach; ?>
