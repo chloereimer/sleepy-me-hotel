@@ -33,7 +33,6 @@ class Room extends CI_Model {
       'number' => $this->input->post('number'),
       'name' => $this->input->post('name'),
       'rate' => $this->input->post('rate'),
-      'image' => $this->input->post('image'),
       'description' => $this->input->post('description'),
     );
 
@@ -58,6 +57,19 @@ class Room extends CI_Model {
   function delete_room($id)
   {
     return $this->db->delete('rooms', array('id' => $id) );
+  }
+
+  function set_featured_image($id, $file_name)
+  {
+    $room = $this->get_room($id);
+    $old_image = $room->image;
+
+    // delete the old image
+    unlink( './uploads/' . $old_image);
+
+    // set the new image
+    $this->db->where('id', $id);
+    return $this->db->update('rooms', array( 'image' => $file_name ) );
   }
 
 }

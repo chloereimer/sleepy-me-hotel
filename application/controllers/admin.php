@@ -46,10 +46,13 @@ class Admin extends CI_Controller {
   {
     $this->load_rooms_form();
 
+    $config = array( 'upload_path' => './uploads/', 'allowed_types' => 'jpg|jpeg|png', 'max_size' => '5000' );
+    $this->load->library('upload', $config );
+
     if( $this->form_validation->run() == false ){
 
       if ( !empty($this->input->post('id') ) )  {
-        $this->template->show('admin/edit_room');
+        $this->template->show('admin/edit_room/' . $this->input->post('id') );
       } else {
         $this->template->show('admin/new_room');
       }
@@ -57,13 +60,26 @@ class Admin extends CI_Controller {
     } else {
 
       if( $this->Room->save_room( $this->input->post('id') ) ){
+
+        // upload the featured image
+        if( $this->upload->do_upload('image') ){
+          $data = $this->upload->data();
+          $file_name = $data['file_name'];
+          $this->Room->set_featured_image( $this->input->post('id') , $file_name );
+        }
+
         $this->session->set_flashdata('messageType', 'success');
         $this->session->set_flashdata('message', "Room successfully saved.");
         redirect('/admin/index_rooms', 'refresh');
+
       } else {
+
+        // todo: destroy the featured image
+
         $this->session->set_flashdata('messageType', 'error');
         $this->session->set_flashdata('message', "Room could not be saved.");
         redirect('/admin/index_rooms', 'refresh');
+
       }
 
     }
@@ -107,11 +123,6 @@ class Admin extends CI_Controller {
                    array(
                          'field' => 'description',
                          'label' => 'Description',
-                         'rules' => 'trim|required',
-                         ),
-                   array(
-                         'field' => 'image',
-                         'label' => 'Image',
                          'rules' => 'trim|required',
                          ),
                    );

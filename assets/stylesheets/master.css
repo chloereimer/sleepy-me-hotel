@@ -396,6 +396,7 @@ a {
   display: block;
   margin-right: 2.35765%;
   width: 31.76157%;
+  margin-bottom: 1rem;
   border: 5px solid rgba(50, 58, 73, 0.15); }
   .room:last-child {
     margin-right: 0; }
@@ -405,8 +406,7 @@ a {
     clear: left; }
   .room .thumbnail {
     display: block;
-    width: 100%;
-    height: 12rem; }
+    width: 100%; }
   .room .number_name,
   .room .rate,
   .room .description {

@@ -22,7 +22,7 @@
 
     <dt>Image</dt>
     <dd>
-      <img src='<?php echo images_url("$room->image"); ?>' />
+      <img src='<?php echo uploads_url("$room->image"); ?>' />
     </dd>
   </dl>
 

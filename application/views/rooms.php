@@ -2,10 +2,11 @@
 
   <h1 class="page-title">Rooms & Rates</h1>
 
+  <div class="rooms">
   <?php foreach ($rooms as $room) : ?>
     <article class="room">
 
-      <img src="<?php echo images_url( $room['image'] ) ; ?>" class="thumbnail" />
+      <img src="<?php echo uploads_url( $room['image'] ) ; ?>" class="thumbnail" />
 
       <h1 class="number_name" >
         <span class="number">Room <?php echo $room['number']; ?></span>
@@ -18,5 +19,6 @@
 
     </article>
   <?php endforeach; ?>
+  </div>
 
 </section>
