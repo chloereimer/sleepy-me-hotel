@@ -1,5 +1,7 @@
 <section class="content">
 
+  <h1 class="page-title">Admin Dashboard</h1>
+
   <p>Welcome to the Admin section. One day this will be more fleshed out, but for now you can do this stuff:</p>
 
     <ul>

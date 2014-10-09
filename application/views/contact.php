@@ -1,5 +1,7 @@
 <section class="content">
 
+  <h1 class="page-title">Contact Us</h1>
+
   <?php echo form_open( site_url('/contact/mail'), array( 'class' => 'contact-form' ) ); ?>
 
     <?php echo foundation_form_input( 'name' ); ?>

@@ -2,13 +2,14 @@
   -webkit-font-smoothing: antialiased;
   background-color: $base-button-color;
   border-radius: $base-border-radius;
-  color: white;
+  color: $sleepy_black;
   display: inline-block;
   font-size: $base-font-size;
   font-weight: bold;
   line-height: 1;
   padding: 0.75em 1em;
   text-decoration: none;
+  border: 3px solid transparentize( $sleepy_black, 0.30);
 
   &:hover {
     background-color: $hover-button-color;

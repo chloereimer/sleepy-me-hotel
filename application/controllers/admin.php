@@ -44,10 +44,28 @@ class Admin extends CI_Controller {
 
   public function save_room()
   {
-    if( $this->Room->save_room( $this->input->post('id') ) ){
-      $this->session->set_flashdata('messageType', 'success');
-      $this->session->set_flashdata('message', "Room successfully saved.");
-      redirect('/admin/index_rooms', 'refresh');
+    $this->load_rooms_form();
+
+    if( $this->form_validation->run() == false ){
+
+      if ( !empty($this->input->post('id') ) )  {
+        $this->template->show('admin/edit_room');
+      } else {
+        $this->template->show('admin/new_room');
+      }
+
+    } else {
+
+      if( $this->Room->save_room( $this->input->post('id') ) ){
+        $this->session->set_flashdata('messageType', 'success');
+        $this->session->set_flashdata('message', "Room successfully saved.");
+        redirect('/admin/index_rooms', 'refresh');
+      } else {
+        $this->session->set_flashdata('messageType', 'error');
+        $this->session->set_flashdata('message', "Room could not be saved.");
+        redirect('/admin/index_rooms', 'refresh');
+      }
+
     }
   }
 
@@ -69,6 +87,36 @@ class Admin extends CI_Controller {
     $this->load->helper('form');
     $this->load->helper('foundation_form');
     $this->load->library('form_validation');
+
+    $rules = array(
+                   array(
+                         'field' => 'number',
+                         'label' => 'Number',
+                         'rules' => 'trim|required',
+                         ),
+                   array(
+                         'field' => 'name',
+                         'label' => 'Name',
+                         'rules' => 'trim|required',
+                         ),
+                   array(
+                         'field' => 'rate',
+                         'label' => 'Rate',
+                         'rules' => 'trim|required',
+                         ),
+                   array(
+                         'field' => 'description',
+                         'label' => 'Description',
+                         'rules' => 'trim|required',
+                         ),
+                   array(
+                         'field' => 'image',
+                         'label' => 'Image',
+                         'rules' => 'trim|required',
+                         ),
+                   );
+
+    $this->form_validation->set_rules( $rules );
   }
 
 }

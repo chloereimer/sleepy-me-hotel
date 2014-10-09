@@ -1,5 +1,7 @@
 <section class="content">
 
+  <h1 class="page-title">Rooms & Rates</h1>
+
   <?php foreach ($rooms as $room) : ?>
     <article class="room">
 
