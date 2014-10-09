@@ -64,8 +64,10 @@ class Room extends CI_Model {
     $room = $this->get_room($id);
     $old_image = $room->image;
 
-    // delete the old image
-    unlink( './uploads/' . $old_image);
+    // delete the old image if it exists
+    if( file_exists( './uploads/' . $old_image ) ){
+      unlink( './uploads/' . $old_image );
+    }
 
     // set the new image
     $this->db->where('id', $id);
