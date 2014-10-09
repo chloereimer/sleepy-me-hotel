@@ -70,7 +70,7 @@ class Room extends CI_Model {
     }
 
     // set the new image
-    $this->db->where('id', $id);
+    $this->db->where('id', $room->id );
     return $this->db->update('rooms', array( 'image' => $file_name ) );
   }
 

@@ -46,7 +46,7 @@ class Admin extends CI_Controller {
   {
     $this->load_rooms_form();
 
-    $config = array( 'upload_path' => './uploads/', 'allowed_types' => 'jpg|jpeg|png', 'max_size' => '5000' );
+    $config = array( 'upload_path' => './uploads/', 'allowed_types' => 'jpg|jpeg|png', 'file_name' => md5(uniqid(mt_rand())) );
     $this->load->library('upload', $config );
 
     if( $this->form_validation->run() == false ){
