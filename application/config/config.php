@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require 'env.php';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -26,7 +28,7 @@ $config['base_url'] = $_ENV['BASE_URL'];
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = $_ENV['INDEX_PAGE'];
 
 /*
 |--------------------------------------------------------------------------
