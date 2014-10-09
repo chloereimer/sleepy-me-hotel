@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <link rel="stylesheet" href="<?php echo stylesheets_url('master.css') ?>">
   <title><?php echo isset($title) ? "$title – Sleepy-Me Hotel" : "Sleepy-Me Hotel"; ?></title>
+  <script src="<?php echo javascripts_url('modernizr/modernizr.js'); ?>"></script> <!-- yes yes this should be a custom modernizr eventually -->
+  <script src="<?php echo javascripts_url('jquery/jquery.min.js'); ?>"></script>
+  <script src="<?php echo javascripts_url('application.js'); ?>"></script>
+  <script>
+    $(document).ready(function(){
+      SleepyMe.initializeStickyFooter();
+    });
+  </script>
 </head>
 <body>
 <nav class="site-navigation">
