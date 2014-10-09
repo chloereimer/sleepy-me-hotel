@@ -360,4 +360,38 @@ a {
   #map_canvas:last-child {
     margin-right: 0; }
 
+.room {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+  border: 5px solid rgba(50, 58, 73, 0.2); }
+  .room:last-child {
+    margin-right: 0; }
+  .room:nth-child(3n) {
+    margin-right: 0; }
+  .room:nth-child(3n+1) {
+    clear: left; }
+  .room .thumbnail {
+    display: block;
+    width: 100%; }
+  .room .number_name,
+  .room .rate,
+  .room .description {
+    padding: 0 1.25rem; }
+  .room .number_name {
+    margin-top: 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: normal; }
+  .room .number,
+  .room .name {
+    display: block; }
+  .room .number {
+    font-weight: bold; }
+  .room .rate {
+    margin-bottom: 1rem; }
+  .room .description {
+    margin-bottom: 1.25rem; }
+
 /*# sourceMappingURL=master.css.map */
