@@ -6,3 +6,4 @@
 */cache/!.htaccess
 scss_cache/
 .sass-cache/
+env.php
