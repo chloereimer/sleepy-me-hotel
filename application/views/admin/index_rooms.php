@@ -23,9 +23,9 @@
           <tr>
             <td><?php echo $room->number; ?></td>
             <td class="name"><?php echo $room->name; ?></td>
-            <td><a href="<?php echo site_url('admin/show_room/' . $room->id ); ?>" class="button">View</a></td>
-            <td><a href="<?php echo site_url('admin/edit_room/' . $room->id ); ?>" class="button">Edit</a></td>
-            <td><a href="<?php echo site_url('admin/delete_room/' . $room->id ); ?>" class="button">Delete</a></td>
+            <td><a href="<?php echo site_url('/admin/show_room/' . $room->id ); ?>" class="button">View</a></td>
+            <td><a href="<?php echo site_url('/admin/edit_room/' . $room->id ); ?>" class="button">Edit</a></td>
+            <td><a href="<?php echo site_url('/admin/delete_room/' . $room->id ); ?>" class="button">Delete</a></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
