@@ -2,23 +2,23 @@
 
   <h1 class="page-title">Rooms & Rates</h1>
 
-  <div class="rooms">
   <?php foreach ($rooms as $room) : ?>
     <article class="room">
 
-      <img src="<?php echo uploads_url( $room['image'] ) ; ?>" class="thumbnail" />
+      <img src="<?php echo uploads_url( $room['image'] ) ; ?>" class="featured-image" />
 
-      <h1 class="number_name" >
-        <span class="number">Room <?php echo $room['number']; ?></span>
-        <span><?php echo $room['name']; ?></span>
-      </h1>
+      <div class="info">
+        <h1 class="number_name" >
+          <span class="number">Room <?php echo $room['number']; ?></span>
+          <span><?php echo $room['name']; ?></span>
+        </h1>
 
-      <div class="rate"><?php echo money_format('%=i.2n/night', $room['rate']); ?></div>
+        <div class="rate"><?php echo money_format('%=i.2n/night', $room['rate']); ?></div>
 
-      <div class="description"><?php echo $room['description']; ?></div>
+        <div class="description"><?php echo $room['description']; ?></div>
+      </div>
 
     </article>
   <?php endforeach; ?>
-  </div>
 
 </section>
