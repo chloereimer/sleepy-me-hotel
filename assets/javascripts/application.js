@@ -2,8 +2,6 @@ SleepyMe = {};
 
 SleepyMe.initializeStickyFooter = function(){
 
-  console.log('inside initializeStickyFooter');
-
   $(window).resize(function(){
 
     htmlHeight = $('html').height();
@@ -19,12 +17,8 @@ SleepyMe.initializeStickyFooter = function(){
       $('.site-footer').removeClass('sticky-bottom')
     }
 
-    console.log('inside window resize');
-
   });
 
   $(window).resize();
-
-  console.log('after resize');
   
 };
