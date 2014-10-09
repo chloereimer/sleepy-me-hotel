@@ -9,7 +9,7 @@
  * http://bitters.bourbon.io
  * Copyright 2013–2014 thoughtbot, inc.
  * MIT License */
-button,
+button, .button,
 input[type="submit"] {
   -webkit-font-smoothing: antialiased;
   background-color: #477DCA;
@@ -21,16 +21,16 @@ input[type="submit"] {
   line-height: 1;
   padding: 0.75em 1em;
   text-decoration: none; }
-  button:hover,
+  button:hover, .button:hover,
   input[type="submit"]:hover {
     background-color: #2c5999;
     color: white; }
-  button:disabled,
+  button:disabled, .button:disabled,
   input[type="submit"]:disabled {
     cursor: not-allowed;
     opacity: 0.5; }
 
-.error {
+.error, .alert.success {
   font-weight: bold;
   margin-bottom: 0.75em;
   padding: 0.75em; }
@@ -42,6 +42,14 @@ input[type="submit"] {
     color: #6a0f13; }
     .error a:hover {
       color: #110203; }
+
+.alert.success {
+  background: #E6EFC2;
+  color: #56651a; }
+  .alert.success a {
+    color: #333c10; }
+    .alert.success a:hover {
+      color: black; }
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -228,7 +236,7 @@ dl {
   dl dd {
     margin: 0; }
 
-button,
+button, .button,
 input[type="submit"] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -349,6 +357,20 @@ a {
       content: "";
       display: table;
       clear: both; }
+
+.actions {
+  margin: 1rem 0; }
+
+.page-alert {
+  max-width: 68rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem; }
+  .page-alert:after {
+    content: "";
+    display: table;
+    clear: both; }
 
 .contact-form,
 #map_canvas {
