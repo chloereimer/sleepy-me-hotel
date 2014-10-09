@@ -51,7 +51,9 @@ class Admin extends CI_Controller {
 
     if( $this->form_validation->run() == false ){
 
-      if ( !empty($this->input->post('id') ) )  {
+      $id = $this->input->post('id');
+
+      if ( !empty( $id ) )  {
         $this->template->show('admin/edit_room/' . $this->input->post('id') );
       } else {
         $this->template->show('admin/new_room');
