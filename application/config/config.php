@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require 'env.php';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -14,7 +16,7 @@
 | path to your installation.
 |
 */
-$config['base_url'] = 'http://localhost:8888/sleepy-me-hotel/';
+$config['base_url'] = $_ENV['BASE_URL'];
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ $config['base_url'] = 'http://localhost:8888/sleepy-me-hotel/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = $_ENV['INDEX_PAGE'];
 
 /*
 |--------------------------------------------------------------------------
@@ -224,7 +226,9 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'boopboopboop';
+$config['encryption_key'] = $_ENV['ENCRYPTION_KEY'];
+
+$config['encrypt_name'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -360,3 +364,5 @@ $config['proxy_ips'] = '';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
+
+setlocale(LC_MONETARY, 'en_US');

@@ -6,8 +6,14 @@ if (!function_exists('foundation_form_input'))
   {
 
     $isValid = ( form_error($name) ? false : true );
+
+    if( !empty( $args['default_value'] ) ){
+      $default_value = $args['default_value'];
+    } else {
+      $default_value = null;
+    }
     
-    $node  = "<label class='" . ( $isValid ? "" : " error" ) . "' >" . humanize($name);
+    $node  = "<label>" . humanize($name);
 
     if( !empty( $args['as'] ) ){
 
@@ -26,7 +32,7 @@ if (!function_exists('foundation_form_input'))
 
         case 'text':
 
-          $node .= form_textarea( $name, set_value($name) );
+          $node .= form_textarea( $name, set_value($name, $default_value) );
 
           break;
         
@@ -38,11 +44,11 @@ if (!function_exists('foundation_form_input'))
 
     } else {
 
-      $node .= form_input( $name, set_value($name) );
+      $node .= form_input( $name, set_value($name, $default_value) );
 
     }
 
-    $node .= form_error( $name , '<span class="error">', '</span>');
+    $node .= form_error( $name , '<div class="error">', '</div>');
 
     $node .= "</label>";
 

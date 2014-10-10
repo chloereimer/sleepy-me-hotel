@@ -63,3 +63,17 @@ if (!function_exists('images_url'))
     return $url;
   }
 }
+
+if (!function_exists('uploads_url'))
+{   
+  function uploads_url($file = NULL)
+  {
+    $url = '';
+    $ci =& get_instance();
+    $url .= base_url() . $ci->config->item('uploads_path');
+    if( isset($file) ){
+      $url .= $file;
+    }
+    return $url;
+  }
+}

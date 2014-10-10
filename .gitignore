@@ -5,3 +5,6 @@
 */cache/!index.html
 */cache/!.htaccess
 scss_cache/
+.sass-cache/
+env.php
+uploads/

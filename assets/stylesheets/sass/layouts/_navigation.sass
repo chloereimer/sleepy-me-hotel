@@ -1,0 +1,43 @@
+.site-navigation
+
+  z-index: 1
+
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+
+  height: rem(56)
+
+  background: $sleepy_white
+  color: $sleepy_black
+
+  box-shadow: 0 5px transparentize( $sleepy_black, 0.30)
+
+  font-weight: 100
+  line-height: 1
+
+  ul
+
+    +outer-container()
+
+  li
+
+    float: left
+
+    &:first-of-type
+      margin-left: -1rem
+    &:last-of-type
+      margin-right: -1rem
+
+    &.admin
+      float: right
+
+  a
+
+    display: block
+    padding: 1.25rem 1rem
+    color: inherit
+
+    &:hover,&:focus
+      background: transparentize( $sleepy_black, 0.85)
