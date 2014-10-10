@@ -6,6 +6,8 @@
  * into integrating CKEditor with CodeIgniter projects (without using a helper or CKFinder).
  */
 
+require 'env.php';
+
 $CKEditorFuncNum;
 $destination;
 $url;
@@ -17,7 +19,7 @@ $file_name = md5(uniqid(mt_rand()));
 $extension = end((explode(".", $_FILES['upload']['name'])));
 $destination = 'uploads/' . $file_name . '.' . $extension;
 
-$url = base_url($destination);
+$url = $_ENV['BASE_URL'] . $destination;
 
 $move = @ move_uploaded_file($_FILES['upload']['tmp_name'], $destination );
 

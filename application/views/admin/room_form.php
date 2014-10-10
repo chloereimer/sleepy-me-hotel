@@ -23,7 +23,7 @@
 <script src="//cdn.ckeditor.com/4.4.5/standard/ckeditor.js"></script>
 <script>
   CKEDITOR.replace( 'description' , {
-    filebrowserImageUploadUrl: '<?php echo site_url("uploader/upload_image") ?>'
+    filebrowserImageUploadUrl: '../../../uploader.php'
 
   });
 </script>
