@@ -6,6 +6,9 @@ class Reservations extends CI_Controller {
 
     parent::__construct();
 
+    // load the reservation model
+    $this->load->model('Reservation');
+
     // set up the calendar options
 
     $options = array();
@@ -32,8 +35,8 @@ class Reservations extends CI_Controller {
       {cal_row_start}<tr>{/cal_row_start}
       {cal_cell_start}<td>{/cal_cell_start}
 
-      {cal_cell_content}<a href="{content}">{day}</a>{/cal_cell_content}
-      {cal_cell_content_today}<a href="{content}" class="today">{day}</a>{/cal_cell_content_today}
+      {cal_cell_content}<span class="{content}">{day}</span>{/cal_cell_content}
+      {cal_cell_content_today}<span href="{content}" class="{content} today">{day}</span>{/cal_cell_content_today}
 
       {cal_cell_no_content}<span>{day}</span>{/cal_cell_no_content}
       {cal_cell_no_content_today}<span class="today">{day}</span>{/cal_cell_no_content_today}
@@ -47,7 +50,7 @@ class Reservations extends CI_Controller {
 
     ';
 
-    $this->load->library('calendar', $options );
+    $this->load->library( 'calendar' , $options );
 
   }
 
@@ -57,7 +60,26 @@ class Reservations extends CI_Controller {
   }
 
   public function calendar() {
-    $this->load->view('calendar');
+
+    $reservations = $this->Reservation->get_reservations();
+
+    $year = $this->uri->segment(3);
+    $month = $this->uri->segment(4);
+
+    // generate booked/non-booked days
+    $data = array();
+
+    foreach ($reservations as $reservation) {
+      $reservation_date = explode( '-', $reservation->date );
+      if( $year == $reservation_date[0] && $month == $reservation_date[1] ){
+        $reservation_day = ltrim( $reservation_date[2] , '0' );
+        $data[ $reservation_day ] = 'booked';
+      }
+    }
+
+    $args['calendar'] = $this->calendar->generate( $year, $month, $data );
+    $this->load->view( 'calendar', $args );
+
   }
 
 }
