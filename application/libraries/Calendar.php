@@ -79,7 +79,7 @@ class CI_Calendar {
     {
       if (isset($this->$key))
       {
-	$this->$key = $val;
+        $this->$key = $val;
       }
     }
   }
@@ -210,31 +210,31 @@ class CI_Calendar {
 
       for ($i = 0; $i < 7; $i++)
       {
-	$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
+        $out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_start_today'] : $this->temp['cal_cell_start'];
 
-	if ($day > 0 AND $day <= $total_days)
-	{
-	  if (isset($data[$day]))
-	  {
-	    // Cells with content
-	    $temp = ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
-	    $out .= str_replace('{day}', $day, str_replace('{content}', $data[$day], $temp));
-	  }
-	  else
-	  {
-	    // Cells with no content
-	    $temp = ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
-	    $out .= str_replace('{day}', $day, $temp);
-	  }
-	}
-	else
-	{
-	  // Blank cells
-	  $out .= $this->temp['cal_cell_blank'];
-	}
+        if ($day > 0 AND $day <= $total_days)
+        {
+          if (isset($data[$day]))
+          {
+            // Cells with content
+            $temp = ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_content_today'] : $this->temp['cal_cell_content'];
+            $out .= str_replace('{day}', $day, str_replace('{content}', $data[$day], $temp));
+          }
+          else
+          {
+            // Cells with no content
+            $temp = ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_no_content_today'] : $this->temp['cal_cell_no_content'];
+            $out .= str_replace('{day}', $day, $temp);
+          }
+        }
+        else
+        {
+          // Blank cells
+          $out .= $this->temp['cal_cell_blank'];
+        }
 
-	$out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];
-	$day++;
+        $out .= ($is_current_month == TRUE AND $day == $cur_day) ? $this->temp['cal_cell_end_today'] : $this->temp['cal_cell_end'];         
+        $day++;
       }
 
       $out .= "\n";
@@ -385,7 +385,7 @@ class CI_Calendar {
     {
       if ($year % 400 == 0 OR ($year % 4 == 0 AND $year % 100 != 0))
       {
-	return 29;
+        return 29;
       }
     }
 
@@ -405,28 +405,28 @@ class CI_Calendar {
   function default_template()
   {
     return  array (
-	    'table_open'        => '<table border="0" cellpadding="4" cellspacing="0">',
-	    'heading_row_start'     => '<tr>',
-	    'heading_previous_cell'   => '<th><a href="{previous_url}">&lt;&lt;</a></th>',
-	    'heading_title_cell'    => '<th colspan="{colspan}">{heading}</th>',
-	    'heading_next_cell'     => '<th><a href="{next_url}">&gt;&gt;</a></th>',
-	    'heading_row_end'     => '</tr>',
-	    'week_row_start'      => '<tr>',
-	    'week_day_cell'       => '<td>{week_day}</td>',
-	    'week_row_end'        => '</tr>',
-	    'cal_row_start'       => '<tr>',
-	    'cal_cell_start'      => '<td>',
-	    'cal_cell_start_today'    => '<td>',
-	    'cal_cell_content'      => '<a href="{content}">{day}</a>',
-	    'cal_cell_content_today'  => '<a href="{content}"><strong>{day}</strong></a>',
-	    'cal_cell_no_content'   => '{day}',
-	    'cal_cell_no_content_today' => '<strong>{day}</strong>',
-	    'cal_cell_blank'      => '&nbsp;',
-	    'cal_cell_end'        => '</td>',
-	    'cal_cell_end_today'    => '</td>',
-	    'cal_row_end'       => '</tr>',
-	    'table_close'       => '</table>'
-	  );
+            'table_open'        => '<table border="0" cellpadding="4" cellspacing="0">',
+            'heading_row_start'     => '<tr>',
+            'heading_previous_cell'   => '<th><a href="{previous_url}">&lt;&lt;</a></th>',
+            'heading_title_cell'    => '<th colspan="{colspan}">{heading}</th>',
+            'heading_next_cell'     => '<th><a href="{next_url}">&gt;&gt;</a></th>',
+            'heading_row_end'     => '</tr>',
+            'week_row_start'      => '<tr>',
+            'week_day_cell'       => '<td>{week_day}</td>',
+            'week_row_end'        => '</tr>',
+            'cal_row_start'       => '<tr>',
+            'cal_cell_start'      => '<td>',
+            'cal_cell_start_today'    => '<td>',
+            'cal_cell_content'      => '<a href="{content}">{day}</a>',
+            'cal_cell_content_today'  => '<a href="{content}"><strong>{day}</strong></a>',
+            'cal_cell_no_content'   => '{day}',
+            'cal_cell_no_content_today' => '<strong>{day}</strong>',
+            'cal_cell_blank'      => '&nbsp;',
+            'cal_cell_end'        => '</td>',
+            'cal_cell_end_today'    => '</td>',
+            'cal_row_end'       => '</tr>',
+            'table_close'       => '</table>'
+          );
   }
 
   // --------------------------------------------------------------------
@@ -455,14 +455,14 @@ class CI_Calendar {
     {
       if (preg_match("/\{".$val."\}(.*?)\{\/".$val."\}/si", $this->template, $match))
       {
-	$this->temp[$val] = $match['1'];
+        $this->temp[$val] = $match['1'];
       }
       else
       {
-	if (in_array($val, $today, TRUE))
-	{
-	  $this->temp[$val] = $this->temp[str_replace('_today', '', $val)];
-	}
+        if (in_array($val, $today, TRUE))
+        {
+          $this->temp[$val] = $this->temp[str_replace('_today', '', $val)];
+        }
       }
     }
   }

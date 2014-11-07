@@ -28,7 +28,7 @@ class Reservation extends CI_Model {
     if( isset($id) ){
       $data['id'] = $id;
     }
-
+    
     if ($id == null) {
       return $this->db->insert('reservations', $data);
     }
