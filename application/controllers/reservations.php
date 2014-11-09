@@ -8,6 +8,7 @@ class Reservations extends CI_Controller {
 
     // load the reservation model
     $this->load->model('Reservation');
+    $this->load->model('Room');
 
     // set up the calendar options
 
@@ -69,17 +70,18 @@ class Reservations extends CI_Controller {
     // generate booked/non-booked days
     $data = array();
 
-    foreach ($reservations as $reservation) {
-      $reservation_date = explode( '-', $reservation->date );
-      if( $year == $reservation_date[0] && $month == $reservation_date[1] ){
-        $reservation_day = ltrim( $reservation_date[2] , '0' );
-        $data[ $reservation_day ] = 'booked';
-      }
-    }
-
     $args['calendar'] = $this->calendar->generate( $year, $month, $data );
     $this->load->view( 'calendar', $args );
 
+  }
+
+  public function available_rooms(){
+
+    $startDate = $this->input->get('startDate');
+    $endDate = $this->input->get('endDate');
+
+    // return available rooms within dates
+    
   }
 
 }
