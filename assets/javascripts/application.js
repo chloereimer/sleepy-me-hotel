@@ -25,7 +25,11 @@ SleepyMe.initializeStickyFooter = function(){
 
 SleepyMe.initializeCalendar = function(){
 
-  $(document).on('click', '.previous_link,.next_link', function(){
+  $('.calendar').load( 'calendar/2014/11', function(){
+    $(window).resize();
+  });
+
+  $('.calendar').on('click', '.previous_link,.next_link', function(){
     $('.calendar').load( $(this).data('url') );
   });
 
