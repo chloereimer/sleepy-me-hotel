@@ -26,6 +26,65 @@ class Room extends CI_Model {
     return $query->row();
   }
 
+  function get_available_rooms($startDate, $endDate){
+
+    // reformat dates
+    $startDate = new DateTime( $startDate );
+    $endDate = new DateTime( $endDate );
+
+    $this->load->model('Reservation');
+    $available_rooms = array();
+
+    $rooms = $this->get_rooms();
+    foreach ($rooms as $room) {
+
+      $isAvailable = true;
+
+      $reservations = $this->Reservation->get_reservations_by_room_id($room->id);
+
+      if( empty($reservations) ){
+
+        // if there are no results, room has no reservations at all and is therefore available
+
+      } else {
+
+        // there are reservations; room is not necessarily available
+
+        foreach ($reservations as $reservation) {
+
+          $reservationStartDate = new DateTime( $reservation->start_date);
+          $reservationEndDate = new DateTime( $reservation->end_date);
+
+          // dates overlap if:
+          //   reservation date starts or ends on the start/end date of an existing reservation
+          //   reservation starts between the start/end date of an existing reservation
+          //   reservation ends between the start/end of an existing reservation
+          //   reservation starts before an existing reservation starts, and ends after an existing reservation ends
+
+          $datesOverlap = (
+                            ( $startDate == $reservationStartDate || $startDate == $reservationEndDate) ||
+                            ( $endDate == $reservationStartDate || $endDate == $reservationEndDate ) ||
+                            ( $startDate > $reservationStartDate && $startDate < $reservationEndDate ) ||
+                            ( $endDate > $reservationStartDate && $endDate < $reservationEndDate ) ||
+                            ( $startDate < $reservationStartDate && $endDate > $reservationEndDate )
+                          );
+
+          if( $datesOverlap ){
+            $isAvailable = false;
+          }
+        }
+      }
+
+      if( $isAvailable == true ){
+        $available_rooms[] = $room;
+      }
+
+    }
+
+    return $available_rooms;
+
+  }
+
   function save_room($id = null)
   {
 
