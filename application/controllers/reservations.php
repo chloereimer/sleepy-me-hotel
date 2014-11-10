@@ -80,8 +80,9 @@ class Reservations extends CI_Controller {
     $startDate = $this->input->get('startDate');
     $endDate = $this->input->get('endDate');
 
-    // return available rooms within dates
-    
+    echo json_encode( $this->Room->get_available_rooms($startDate, $endDate) );
+
+
   }
 
 }
