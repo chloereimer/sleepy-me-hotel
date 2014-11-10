@@ -24,7 +24,15 @@
 <script>
   $(document).ready(function(){
 
-    SleepyMe.initializeCalendar();
+    date = new Date();
+
+    $('.calendar').load( '<?php echo site_url("reservations/calendar"); ?>/' + date.getFullYear() + '/' + (date.getMonth() + 1) , function(){
+      $(window).resize();
+    });
+
+    $('.calendar').on('click', '.previous_link,.next_link', function(){
+      $('.calendar').load( $(this).data('url') );
+    });
 
     $('input[name=arrival_date]').datepicker({
       minDate: +1,
@@ -53,7 +61,7 @@
 
     if( startDate != undefined && endDate != undefined ){
 
-      $.get('reservations/available_rooms', { startDate: startDate, endDate: endDate }, function( data ){
+      $.get( '<?php echo site_url("reservations/available_rooms"); ?>', { startDate: startDate, endDate: endDate }, function( data ){
         rooms = JSON.parse(data);
         if( rooms.length > 0 ){
           $('.error').hide();
