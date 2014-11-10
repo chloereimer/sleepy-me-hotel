@@ -64,6 +64,23 @@ class Reservations extends CI_Controller {
     $this->template->show('reservations', $args);
   }
 
+  public function select_a_room(){
+
+    $startDate = $this->input->post('arrival_date');
+    $endDate = $this->input->post('departure_date');
+    $args['rooms'] = $this->Room->get_available_rooms($startDate, $endDate);
+
+    $this->template->show('reservations/select_a_room', $args);
+
+  }
+
+  public function room_info(){
+
+    $args['room'] = $this->Room->get_room( $this->input->get('id') );
+    $this->load->view('reservations/room_info', $args);
+
+  }
+
   public function calendar() {
 
     $reservations = $this->Reservation->get_reservations();
