@@ -27,7 +27,7 @@ SleepyMe.initializeCalendar = function(){
 
   date = new Date();
 
-  $('.calendar').load( 'calendar/' + date.getFullYear() + '/' + (date.getMonth() + 1) , function(){
+  $('.calendar').load( 'reservations/calendar/' + date.getFullYear() + '/' + (date.getMonth() + 1) , function(){
     $(window).resize();
   });
 
