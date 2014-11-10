@@ -43,8 +43,8 @@ class Reservations extends CI_Controller {
       {cal_cell_content}<span class="{content}">{day}</span>{/cal_cell_content}
       {cal_cell_content_today}<span href="{content}" class="{content} today">{day}</span>{/cal_cell_content_today}
 
-      {cal_cell_no_content}<span>{day}</span>{/cal_cell_no_content}
-      {cal_cell_no_content_today}<span class="today">{day}</span>{/cal_cell_no_content_today}
+      {cal_cell_no_content}<span class="room_not_available">{day}</span>{/cal_cell_no_content}
+      {cal_cell_no_content_today}<span class="today room_not_available">{day}</span>{/cal_cell_no_content_today}
 
       {cal_cell_blank}&nbsp;{/cal_cell_blank}
 
@@ -73,6 +73,25 @@ class Reservations extends CI_Controller {
 
     // generate booked/non-booked days
     $data = array();
+
+    $today = new DateTime();
+
+    $startDate = new DateTime("$year-$month-1");
+    $endDate = new DateTime("$year-$month-" . $startDate->format('t') );
+
+    while( $startDate <= $endDate ){
+
+      if( $startDate > $today ){
+        $available_rooms = $this->Room->get_available_rooms($startDate->format('Y-m-d'), $startDate->format('Y-m-d'));
+        if( count( $available_rooms ) > 0 ){
+          $data[ ltrim($startDate->format('d'), '0') ] = 'room_available';
+        }
+      } else {
+        $data[ltrim($startDate->format('d'), '0')] = 'before_today';
+      }
+
+      $startDate->modify('+1 day');
+    }
 
     $args['calendar'] = $this->calendar->generate( $year, $month, $data );
     $this->load->view( 'calendar', $args );

@@ -53,7 +53,7 @@
 
     if( startDate != undefined && endDate != undefined ){
 
-      $.get('available_rooms', { startDate: startDate, endDate: endDate }, function( data ){
+      $.get('reservations/available_rooms', { startDate: startDate, endDate: endDate }, function( data ){
         rooms = JSON.parse(data);
         if( rooms.length > 0 ){
           $('.error').hide();
