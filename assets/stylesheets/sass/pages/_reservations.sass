@@ -1,3 +1,23 @@
 .availability,
 .select-a-date
   +span-columns( 6 )
+
+.calendar
+
+  table td
+    padding: 0
+
+    span
+      display: block
+      padding: 0.5rem 0.25rem
+
+  .before_today
+    background: $light-gray
+    color: darken( $light-gray, 15% )
+
+  .room_not_available
+    background: $light-red
+    color: darken( $light-red, 15% )
+
+  .room_available
+    background: $light-green

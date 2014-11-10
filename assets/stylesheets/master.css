@@ -37,20 +37,20 @@ input[type="submit"] {
   padding: 0.75em; }
 
 .error {
-  background: #FBE3E4;
-  color: #96151b; }
+  background: #fee;
+  color: #bb0000; }
   .error a {
-    color: #6a0f13; }
+    color: #880000; }
     .error a:hover {
-      color: #110203; }
+      color: #220000; }
 
 .alert.success {
-  background: #E6EFC2;
-  color: #56651a; }
+  background: #efe;
+  color: #00bb00; }
   .alert.success a {
-    color: #333c10; }
+    color: #008800; }
     .alert.success a:hover {
-      color: black; }
+      color: #002200; }
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -106,7 +106,7 @@ a {
     outline: none; }
 
 hr {
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #fafafa;
   border-left: none;
   border-right: none;
   border-top: none;
@@ -118,7 +118,7 @@ picture {
   max-width: 100%; }
 
 blockquote {
-  border-left: 2px solid #DDD;
+  border-left: 2px solid #fafafa;
   color: #515e76;
   margin: 1.5em 0;
   padding-left: 0.75em; }
@@ -130,8 +130,8 @@ cite {
     content: "\2014 \00A0"; }
 
 fieldset {
-  background: #f7f7f7;
-  border: 1px solid #DDD;
+  background: white;
+  border: 1px solid #fafafa;
   margin: 0 0 0.75em 0;
   padding: 1.5em; }
 
@@ -161,7 +161,7 @@ select[multiple=multiple] {
   transition: border-color;
   background-color: white;
   border-radius: 0;
-  border: 1px solid #DDD;
+  border: 1px solid #fafafa;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
   font-family: "Merriweather", serif;
   font-size: 1em;
@@ -171,7 +171,7 @@ select[multiple=multiple] {
   textarea:hover,
   input[type="email"]:hover, input[type="number"]:hover, input[type="password"]:hover, input[type="search"]:hover, input[type="tel"]:hover, input[type="text"]:hover, input[type="url"]:hover, input[type="color"]:hover, input[type="date"]:hover, input[type="datetime"]:hover, input[type="datetime-local"]:hover, input[type="month"]:hover, input[type="time"]:hover, input[type="week"]:hover,
   select[multiple=multiple]:hover {
-    border-color: #c4c4c4; }
+    border-color: #e1e1e1; }
   textarea:focus,
   input[type="email"]:focus, input[type="number"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="text"]:focus, input[type="url"]:focus, input[type="color"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus,
   select[multiple=multiple]:focus {
@@ -210,13 +210,13 @@ table {
   width: 100%; }
 
 th {
-  border-bottom: 1px solid #b7b7b7;
+  border-bottom: 1px solid #d4d4d4;
   font-weight: bold;
   padding: 0.75em 0;
   text-align: left; }
 
 td {
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #fafafa;
   padding: 0.75em 0; }
 
 tr,
@@ -441,5 +441,19 @@ a {
   .availability:last-child,
   .select-a-date:last-child {
     margin-right: 0; }
+
+.calendar table td {
+  padding: 0; }
+  .calendar table td span {
+    display: block;
+    padding: 0.5rem 0.25rem; }
+.calendar .before_today {
+  background: #fafafa;
+  color: #d4d4d4; }
+.calendar .room_not_available {
+  background: #fee;
+  color: #ffa2a2; }
+.calendar .room_available {
+  background: #efe; }
 
 /*# sourceMappingURL=master.css.map */
