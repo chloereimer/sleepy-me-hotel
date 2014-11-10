@@ -46,9 +46,20 @@
     startDate = $('#arrival_date').val();
     endDate = $('#departure_date').val();
 
-    $.get('available_rooms', { startDate: startDate, endDate: endDate }, function( data ){
-      // handle returned data
-    });
+    if( startDate != undefined && endDate != undefined ){
+
+      $.get('available_rooms', { startDate: startDate, endDate: endDate }, function( data ){
+        rooms = JSON.parse(data);
+        if( rooms.length > 0 ){
+          $('.error').hide();
+          // enable submit
+        } else {
+          $('.error').text('Sorry, there are no rooms available for the period you selected.').show();
+          // disable submit
+        }
+      });
+
+    }
 
   }
 
