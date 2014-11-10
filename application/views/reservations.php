@@ -6,11 +6,16 @@
   </div>
 
   <div class="select-a-date">
+
     <h1>Select a Date</h1>
-    <label>Arrival Date <input type="text" class="datepicker" id="arrival_date" name="arrival_date"></label>
-    <label>Departure Date <input type="text" class="datepicker" id="departure_date" name="departure_date"></label>
-    <div class="error" style="display:none"></div>
-    <button>Continue</button>
+
+    <?php echo form_open( site_url('/reservations/select_a_room'), array( 'class' => 'select-a-date-form' ) ); ?>
+      <?php echo foundation_form_input( 'arrival_date', array('class' => 'datepicker') ); ?>
+      <?php echo foundation_form_input( 'departure_date', array('class' => 'datepicker') ); ?>
+      <div class="error" style="display:none"></div>
+      <?php echo form_submit( array( 'class' => 'button' ), 'Continue' ) ?>
+    <?php echo form_close(); ?>
+
   </div>
 
 </section>
@@ -21,20 +26,20 @@
 
     SleepyMe.initializeCalendar();
 
-    $('#arrival_date').datepicker({
+    $('input[name=arrival_date]').datepicker({
       minDate: +1,
       defaultDate: +1,
       onClose: function(selectedDate) {
-        $('#departure_date').datepicker('option', 'minDate', selectedDate);
+        $('input[name=departure_date]').datepicker('option', 'minDate', selectedDate);
         checkAvailability();
       }
     });
 
-    $('#departure_date').datepicker({
+    $('input[name=departure_date]').datepicker({
       minDate: +1,
       defaultDate: +1,
       onClose: function(selectedDate) {
-        $('#arrival_date').datepicker('option', 'maxDate', selectedDate);
+        $('input[name=arrival_date]').datepicker('option', 'maxDate', selectedDate);
         checkAvailability();
       }
     });
@@ -43,8 +48,8 @@
 
   checkAvailability = function(){
 
-    startDate = $('#arrival_date').val();
-    endDate = $('#departure_date').val();
+    startDate = $('input[name=arrival_date]').val();
+    endDate = $('input[name=departure_date]').val();
 
     if( startDate != undefined && endDate != undefined ){
 
@@ -52,10 +57,12 @@
         rooms = JSON.parse(data);
         if( rooms.length > 0 ){
           $('.error').hide();
-          // enable submit
+          $('input[type=submit]').removeAttr('disabled');
+          $('.select-a-date-form').unbind('submit');
         } else {
           $('.error').text('Sorry, there are no rooms available for the period you selected.').show();
-          // disable submit
+          $('input[type=submit]').attr('disabled','disabled');
+          $('.select-a-date-form').submit(function(e){ e.preventDefault() });
         }
       });
 

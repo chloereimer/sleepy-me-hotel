@@ -12,6 +12,8 @@ if (!function_exists('foundation_form_input'))
     } else {
       $default_value = null;
     }
+
+    $class = ( !empty( $args['class']) )? $args['class'] : '';
     
     $node  = "<label>" . humanize($name);
 

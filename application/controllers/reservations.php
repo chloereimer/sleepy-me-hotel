@@ -10,6 +10,10 @@ class Reservations extends CI_Controller {
     $this->load->model('Reservation');
     $this->load->model('Room');
 
+    $this->load->helper('form');
+    $this->load->helper('foundation_form');
+    $this->load->library('form_validation');
+
     // set up the calendar options
 
     $options = array();
@@ -81,7 +85,6 @@ class Reservations extends CI_Controller {
     $endDate = $this->input->get('endDate');
 
     echo json_encode( $this->Room->get_available_rooms($startDate, $endDate) );
-
 
   }
 
