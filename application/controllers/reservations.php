@@ -60,17 +60,83 @@ class Reservations extends CI_Controller {
   }
 
   public function index() {
+    // unset any data after this step
+    $this->session->unset_userdata('arrival_date');
+    $this->session->unset_userdata('departure_date');
+    $this->session->unset_userdata('room');
+
     $args['calendar'] = $this->load->view('calendar', NULL, TRUE);
     $this->template->show('reservations', $args);
   }
 
   public function select_a_room(){
 
-    $startDate = $this->input->post('arrival_date');
-    $endDate = $this->input->post('departure_date');
+    $startDate = $this->get_data_from_post_or_session('arrival_date');
+    $endDate = $this->get_data_from_post_or_session('departure_date');
+
+    if( empty( $startDate ) || empty( $endDate ) ){
+      // redirect to step 1 if missing any info
+      redirect('reservations/index');
+    }
+
+    // unset any data after this step
+    $this->session->unset_userdata('room');
+
     $args['rooms'] = $this->Room->get_available_rooms($startDate, $endDate);
+    $args['startDate'] = $startDate;
+    $args['endDate'] = $endDate;
 
     $this->template->show('reservations/select_a_room', $args);
+
+  }
+
+  public function payment(){
+
+    $startDate = $this->get_data_from_post_or_session('arrival_date');
+    $endDate = $this->get_data_from_post_or_session('departure_date');
+    $room = $this->Room->get_room( $this->get_data_from_post_or_session('room') );
+
+    if( empty( $room ) ){
+      // redirect to step 2 if room is missing
+      redirect('reservations/select_a_room');
+    } else if( empty( $startDate ) || empty( $endDate ) ){
+      // redirect to step 1 if either date is missing
+      redirect('reservations/index');
+    }
+
+    $args = array( 'startDate' => $startDate, 'endDate' => $endDate, 'room' => $room );
+
+    $this->template->show('reservations/payment', $args);
+
+  }
+
+  public function confirm(){
+
+    $startDate = $this->get_data_from_post_or_session('arrival_date');
+    $endDate = $this->get_data_from_post_or_session('departure_date');
+    $room = $this->Room->get_room( $this->get_data_from_post_or_session('room') );
+
+    if( empty( $room ) ){
+      // redirect to step 2 if room is missing
+      redirect('reservations/select_a_room');
+    } else if( empty( $startDate ) || empty( $endDate ) ){
+      // redirect to step 1 if either date is missing
+      redirect('reservations/index');
+    }
+
+    $args = array( 'startDate' => $startDate, 'endDate' => $endDate, 'room' => $room );
+
+    $this->form_validation->set_rules( $this->validation_rules() );
+
+    if( $this->form_validation->run() == false ){
+
+      $this->template->show('reservations/payment', $args);
+
+    } else {
+
+      $this->template->show('reservations/confirm', $args);
+
+    }
 
   }
 
@@ -122,6 +188,52 @@ class Reservations extends CI_Controller {
 
     echo json_encode( $this->Room->get_available_rooms($startDate, $endDate) );
 
+  }
+
+  public function get_data_from_post_or_session($string){
+
+    $data = null;
+
+    if( !empty( $this->input->post($string) ) ){
+      $data = $this->input->post($string);
+      $this->session->set_userdata($string, $data);
+    } else if ( !empty( $this->session->userdata($string) ) ){
+      $data = $this->session->userdata($string);
+    }
+
+    return $data;
+
+  }
+
+  private function validation_rules(){
+    $rules = array(
+                   array(
+                         'field' => 'first_name',
+                         'label' => 'First Name',
+                         'rules' => 'trim|required',
+                         ),
+                   array(
+                         'field' => 'last_name',
+                         'label' => 'Last Name',
+                         'rules' => 'trim|required',
+                        ),
+                   array(
+                         'field' => 'email',
+                         'label' => 'Email',
+                         'rules' => 'trim|required|callback_validate_email',
+                        ),
+                   );
+    return $rules;
+  }
+
+  public function validate_email($string)
+  {
+    if ( preg_match( '/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$/' , $string ) != 1 ) {
+      $this->form_validation->set_message('validate_phone', "The %s field is invalid.");
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }
