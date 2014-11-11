@@ -15,6 +15,7 @@ class Reservations extends CI_Controller {
     $this->load->helper('form');
     $this->load->helper('foundation_form');
 
+    $this->load->library('pdf');
     $this->load->library('form_validation');
 
     // set up the calendar options
@@ -124,28 +125,159 @@ class Reservations extends CI_Controller {
     $startDate = $this->get_data_from_post_or_session('arrival_date');
     $endDate = $this->get_data_from_post_or_session('departure_date');
     $room = $this->Room->get_room( $this->get_data_from_post_or_session('room') );
+    $first_name = $this->get_data_from_post_or_session('first_name');
+    $last_name = $this->get_data_from_post_or_session('last_name');
+    $email = $this->get_data_from_post_or_session('email');
+    $stripeToken = $this->get_data_from_post_or_session('stripeToken');
 
-    if( empty( $room ) ){
-      // redirect to step 2 if room is missing
-      redirect('reservations/select_a_room');
-    } else if( empty( $startDate ) || empty( $endDate ) ){
-      // redirect to step 1 if either date is missing
-      redirect('reservations/index');
-    }
-
-    $args = array( 'startDate' => $startDate, 'endDate' => $endDate, 'room' => $room );
+    $args = array('startDate' => $startDate,
+                  'endDate' => $endDate,
+                  'room' => $room,
+                  'first_name' => $first_name,
+                  'last_name' => $last_name,
+                  'email' => $email,
+                  'stripeToken' => $stripeToken
+                  );
 
     $this->form_validation->set_rules( $this->validation_rules() );
 
     if( $this->form_validation->run() == false ){
-
       $this->template->show('reservations/payment', $args);
-
     } else {
+
+      if( empty( $first_name ) || empty( $last_name ) || empty( $email ) || empty( $stripeToken ) ){
+        // redirect to step 3 if payment info is missing
+        redirect('reservations/payment');
+      }else if( empty( $room ) ){
+        // redirect to step 2 if room is missing
+        redirect('reservations/select_a_room');
+      } else if( empty( $startDate ) || empty( $endDate ) ){
+        // redirect to step 1 if either date is missing
+        redirect('reservations/index');
+      }
 
       $this->template->show('reservations/confirm', $args);
 
     }
+
+  }
+
+  public function new_reservation(){
+
+    $startDate = new DateTime( $this->get_data_from_post_or_session('arrival_date') );
+    $endDate = new DateTime( $this->get_data_from_post_or_session('departure_date') );
+    $room = $this->Room->get_room( $this->get_data_from_post_or_session('room') );
+    $first_name = $this->get_data_from_post_or_session('first_name');
+    $last_name = $this->get_data_from_post_or_session('last_name');
+    $email = $this->get_data_from_post_or_session('email');
+    $stripeToken = $this->get_data_from_post_or_session('stripeToken');
+
+    $args = array('startDate' => $startDate,
+                  'endDate' => $endDate,
+                  'room' => $room,
+                  'first_name' => $first_name,
+                  'last_name' => $last_name,
+                  'email' => $email,
+                  'stripeToken' => $stripeToken
+                  );
+
+    Stripe::setApiKey( $_ENV['STRIPE_SECRET_KEY'] );
+
+    try {
+
+      $charge = Stripe_Charge::create(array(
+        "amount" => ($room->rate * 100), // amount in cents, again
+        "currency" => "cad",
+        "card" => $stripeToken,
+        "description" => $email )
+      );
+
+      $this->Reservation->save_reservation( array('start_date' => $startDate->format('Y-m-d'), 'end_date' => $endDate->format('Y-m-d'), 'room_id' => $room->id) );
+
+      redirect('reservations/success');
+
+    } catch(Stripe_CardError $e) {
+
+      $this->session->set_flashdata('messageType', 'alert');
+      $this->session->set_flashdata('message', 'Payment could not be processed.');
+
+      redirect('reservations/confirm');
+
+    }
+
+  }
+
+  public function success(){
+
+    $startDate = $this->get_data_from_post_or_session('arrival_date');
+    $endDate = $this->get_data_from_post_or_session('departure_date');
+    $room = $this->Room->get_room( $this->get_data_from_post_or_session('room') );
+    $first_name = $this->get_data_from_post_or_session('first_name');
+    $last_name = $this->get_data_from_post_or_session('last_name');
+    $email = $this->get_data_from_post_or_session('email');
+    $stripeToken = $this->get_data_from_post_or_session('stripeToken');
+
+    $args = array('startDate' => $startDate,
+                  'endDate' => $endDate,
+                  'room' => $room,
+                  'first_name' => $first_name,
+                  'last_name' => $last_name,
+                  'email' => $email,
+                  'stripeToken' => $stripeToken
+                  );
+
+    $this->template->show('reservations/success', $args);
+
+  }
+
+  public function download_receipt(){
+
+    $startDate = new DateTime( $this->get_data_from_post_or_session('arrival_date') );
+    $endDate = new DateTime( $this->get_data_from_post_or_session('departure_date') );
+    $room = $this->Room->get_room( $this->get_data_from_post_or_session('room') );
+    $first_name = $this->get_data_from_post_or_session('first_name');
+    $last_name = $this->get_data_from_post_or_session('last_name');
+    $email = $this->get_data_from_post_or_session('email');
+    $stripeToken = $this->get_data_from_post_or_session('stripeToken');
+
+    $pdf = new Pdf( PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false );
+
+    $pdf->AddPage();
+
+    $pdf->SetFont('times', 'B', 20);
+    $pdf->Cell(0, 10, 'Reservation Receipt', 0, 1, 'L');
+
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Arrival Date', 0, 1, 'L');
+    $pdf->SetFont('times', '', 16);
+    $pdf->Cell(0, 10, $startDate->format('Y-m-d'), 0, 1, 'L');
+
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Departure Date', 0, 1, 'L');
+    $pdf->SetFont('times', '', 16);
+    $pdf->Cell(0, 10, $endDate->format('Y-m-d'), 0, 1, 'L');
+
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Room', 0, 1, 'L');
+    $pdf->SetFont('times', '', 16);
+    $pdf->Cell(0, 10, $room->number . ', ' . $room->name, 0, 1, 'L');
+
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Rate', 0, 1, 'L');
+    $pdf->SetFont('times', '', 16);
+    $pdf->Cell(0, 10, '$' . $room->rate, 0, 1, 'L');
+
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Name', 0, 1, 'L');
+    $pdf->SetFont('times', '', 16);
+    $pdf->Cell(0, 10, $first_name . ' ' . $last_name, 0, 1, 'L');
+
+    $pdf->SetFont('times', 'B', 16);
+    $pdf->Cell(0, 10, 'Email', 0, 1, 'L');
+    $pdf->SetFont('times', '', 16);
+    $pdf->Cell(0, 10, $email, 0, 1, 'L');
+     
+    $pdf->Output( 'reservation_receipt.pdf', 'D' );
 
   }
 
