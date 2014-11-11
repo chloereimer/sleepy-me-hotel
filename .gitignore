@@ -9,3 +9,5 @@ scss_cache/
 env.php
 uploads/
 *.map
+
+application/third_party/tcpdf/examples/
