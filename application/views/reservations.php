@@ -66,7 +66,7 @@
     startDate = $('input[name=arrival_date]').val();
     endDate = $('input[name=departure_date]').val();
 
-    if( startDate != undefined && endDate != undefined ){
+    if( startDate != "" && endDate != "" ){
 
       $.get( '<?php echo site_url("reservations/available_rooms"); ?>', { startDate: startDate, endDate: endDate }, function( data ){
         rooms = JSON.parse(data);
