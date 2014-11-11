@@ -479,4 +479,19 @@ a {
 .calendar .room_available {
   background: #efe; }
 
+.reservation-steps {
+  border-bottom: 1px dotted #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem; }
+  .reservation-steps li {
+    display: inline;
+    font-style: italic; }
+    .reservation-steps li:not(:last-of-type):after {
+      content: " > ";
+      color: #ccc; }
+    .reservation-steps li.current {
+      font-weight: bold; }
+    .reservation-steps li.tbd {
+      color: #ccc; }
+
 /*# sourceMappingURL=master.css.map */
