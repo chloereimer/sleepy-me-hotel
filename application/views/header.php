@@ -10,10 +10,13 @@
   <script src="<?php echo javascripts_url('jquery/jquery.min.js'); ?>"></script>
   <script src="<?php echo javascripts_url('jquery-ui/jquery-ui.min.js') ?>"></script>
   <script src="<?php echo javascripts_url('application.js'); ?>"></script>
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   <script>
     $(document).ready(function(){
       SleepyMe.initializeStickyFooter();
     });
+
+    Stripe.setPublishableKey("<?php echo $_ENV['STRIPE_PUBLISHABLE_KEY']; ?>");
   </script>
 </head>
 <body>
