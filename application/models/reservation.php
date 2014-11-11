@@ -25,13 +25,14 @@ class Reservation extends CI_Model {
     return $query->row();
   }
 
-  function save_reservation($id = null)
+  function save_reservation($data = array())
   {
 
-    $data = array();
+    $id = null;
 
-    if( isset($id) ){
-      $data['id'] = $id;
+    if( isset($data['id']) ){
+      $id = $data['id'];
+      unset( $data['id'] );
     }
     
     if ($id == null) {
