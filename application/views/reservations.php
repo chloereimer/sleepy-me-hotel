@@ -1,5 +1,12 @@
 <section class="content">
 
+  <ul class="reservation-steps">
+    <li class="current">Select a Date</li>
+    <li class="tbd">Select a Room</li>
+    <li class="tbd">Guest Info & Payment</li>
+    <li class="tbd">Confirmation</li>
+  </ul>
+
   <div class="availability">
     <h1>Availability</h1>
     <div class="calendar"></div>
