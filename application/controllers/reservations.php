@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require 'application/third_party/stripe/Stripe.php';
+
 class Reservations extends CI_Controller {
 
   function __construct(){
@@ -12,6 +14,7 @@ class Reservations extends CI_Controller {
 
     $this->load->helper('form');
     $this->load->helper('foundation_form');
+
     $this->load->library('form_validation');
 
     // set up the calendar options
@@ -56,6 +59,12 @@ class Reservations extends CI_Controller {
     ';
 
     $this->load->library( 'calendar' , $options );
+
+    $stripe = array(
+      "secret_key"      => $_ENV['STRIPE_SECRET_KEY'],
+      "publishable_key" => $_ENV['STRIPE_PUBLISHABLE_KEY']
+    );
+    Stripe::setApiKey($stripe['secret_key']);
 
   }
 
