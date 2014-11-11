@@ -22,3 +22,11 @@ SleepyMe.initializeStickyFooter = function(){
   $(window).resize();
   
 };
+
+SleepyMe.initializeModals = function(){
+
+  $(document).on('click','.modal',function(){
+    $(this).fadeOut(100);
+  });
+
+}
