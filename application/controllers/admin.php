@@ -100,7 +100,7 @@ class Admin extends CI_Controller {
 
   public function reset_database(){
 
-    $this->template->show('reset_database');
+    $this->template->show('/admin/reset_database');
 
   }
 
