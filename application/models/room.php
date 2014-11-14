@@ -124,7 +124,7 @@ class Room extends CI_Model {
     $old_image = $room->image;
 
     // delete the old image if it exists
-    if( file_exists( './uploads/' . $old_image ) ){
+    if( !empty( $old_image ) && file_exists( './uploads/' . $old_image ) ){
       unlink( './uploads/' . $old_image );
     }
 
