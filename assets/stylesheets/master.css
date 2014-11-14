@@ -504,4 +504,26 @@ a {
   .expiration-year:last-child {
     margin-right: 0; }
 
+.reservations-calendar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%; }
+  .reservations-calendar:last-child {
+    margin-right: 0; }
+
+.booked-room-count {
+  color: #999; }
+
+.day,
+.reservation {
+  cursor: pointer; }
+  .day:hover, .day:focus,
+  .reservation:hover,
+  .reservation:focus {
+    text-decoration: underline; }
+
+.reservation {
+  display: block; }
+
 /*# sourceMappingURL=master.css.map */
