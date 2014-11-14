@@ -1,8 +1,23 @@
 <section class="content">
-  <h1>Reservations</h1>
 
-  <div class="calendar"></div>
+  <p><strong>Note:</strong> You can reset the database, if necessary, <a href="reset_database">here</a>.</p>
+
+  <div class="reservations-calendar">
+    <h1>Reservations</h1>
+    <div class="calendar"></div>
+  </div>
+
+  <div class="reservation-detail">
+  </div>
+
 </section>
+
+<style>
+  .rooms-booked-<?php echo $max_rooms; ?>{
+    color: red;
+    font-weight: bold;
+  }
+</style>
 
 <script>
 
@@ -11,11 +26,18 @@
     date = new Date();
 
     $('.calendar').load( '<?php echo site_url("admin/reservation_calendar"); ?>/' + date.getFullYear() + '/' + (date.getMonth() + 1) , function(){
+      $('.calendar table').data('year', date.getFullYear() );
+      $('.calendar table').data('month', (date.getMonth() + 1) );
       $(window).resize();
     });
 
     $('.calendar').on('click', '.previous_link,.next_link', function(){
-      $('.calendar').load( $(this).data('url') );
+      year = $(this).data('url').split('/').reverse()[1];
+      month = $(this).data('url').split('/').reverse()[0];
+      $('.calendar').load( $(this).data('url'), function(){
+        $('.calendar table').data('year', year );
+        $('.calendar table').data('month', month );
+      });
     });
 
     $('input[name=arrival_date]').datepicker({
@@ -34,6 +56,10 @@
         $('input[name=arrival_date]').datepicker('option', 'maxDate', selectedDate);
         checkAvailability();
       }
+    });
+
+    $('.calendar').on('click', '.day', function(){
+      $('.reservation-detail').load( '<?php echo site_url("admin/reservation_detail"); ?>/' + $(this).closest('table').data('year') + '/' + $(this).closest('table').data('month') + '/' + $(this).data('day') );
     });
 
   });

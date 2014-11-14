@@ -8,6 +8,7 @@ class Admin extends CI_Controller {
     parent::__construct();
     $this->load->model('Room');
     $this->load->model('Reservation');
+    $this->load->model('Customer');
 
   }
 
@@ -102,7 +103,11 @@ class Admin extends CI_Controller {
   }
 
   public function index_reservations(){
-    $this->template->show('/admin/index_reservations');
+
+    $args['max_rooms'] = count( $this->Room->get_rooms() );
+
+    $this->template->show('/admin/index_reservations', $args);
+
   }
 
   public function reservation_calendar(){
@@ -129,11 +134,11 @@ class Admin extends CI_Controller {
       {cal_row_start}<tr>{/cal_row_start}
       {cal_cell_start}<td>{/cal_cell_start}
 
-      {cal_cell_content}<span>{day}</span>{/cal_cell_content}
-      {cal_cell_content_today}<span class="today">{day}</span>{/cal_cell_content_today}
+      {cal_cell_content}<span class="day" data-day="{day}" >{day} <small class="booked-room-count rooms-booked-{content}">({content})</small></span>{/cal_cell_content}
+      {cal_cell_content_today}<span class="day today" data-day="{day}" >{day} <small class="booked-room-count rooms-booked-{content}">({content})</small></span>{/cal_cell_content_today}
 
-      {cal_cell_no_content}<span>{day}</span>{/cal_cell_no_content}
-      {cal_cell_no_content_today}<span class="today">{day}</span>{/cal_cell_no_content_today}
+      {cal_cell_no_content}<span class="day" data-day="{day}" >{day}</span>{/cal_cell_no_content}
+      {cal_cell_no_content_today}<span class="day today" data-day="{day}" >{day}</span>{/cal_cell_no_content_today}
 
       {cal_cell_blank}&nbsp;{/cal_cell_blank}
 
@@ -146,15 +151,57 @@ class Admin extends CI_Controller {
 
     $this->load->library( 'calendar' , $options );
 
-    // $reservations = $this->Reservation->get_reservations();
-
     $year = $this->uri->segment(3);
     $month = $this->uri->segment(4);
 
     $data = array();
 
+    $startDate = new DateTime("$year-$month-1");
+    $endDate = new DateTime("$year-$month-" . $startDate->format('t') );
+
+    while( $startDate <= $endDate ){
+
+      $reservations = $this->Reservation->get_reservations_by_date( $startDate->format('Y-m-d') );
+
+      if( count( $reservations ) > 0 ){
+        $data[ ltrim($startDate->format('d') , '0') ] = count( $reservations );
+      }
+
+      $startDate->modify('+1 day');
+    }
+
     $args['calendar'] = $this->calendar->generate( $year, $month, $data );
     $this->load->view( 'admin/reservation_calendar', $args );
+
+  }
+
+  public function reservation_detail(){
+
+    $year = $this->uri->segment(3);
+    $month = $this->uri->segment(4);
+    $day = $this->uri->segment(5);
+
+    $args['year'] = $year;
+    $args['month'] = $month;
+    $args['day'] = $day;
+
+    $reservations = $this->Reservation->get_reservations_by_date( "$year-$month-$day" );
+
+    foreach ($reservations as $reservation) {
+      $reservation->room = $this->Room->get_room($reservation->room_id);
+      $reservation->customer = $this->Customer->get_customer($reservation->customer_id);
+    }
+
+    $args['reservations'] = $reservations;
+
+    $this->load->view('admin/reservation_detail', $args);
+
+  }
+
+  public function reservation_room_detail(){
+
+    $args['room'] = $this->Room->get_room( $this->uri->segment(3) );
+    $this->load->view('reservations/room_info', $args);
 
   }
 

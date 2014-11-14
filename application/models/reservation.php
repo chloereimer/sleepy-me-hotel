@@ -19,6 +19,11 @@ class Reservation extends CI_Model {
     return $query->result();
   }
 
+  function get_reservations_by_date($date){
+    $query = $this->db->query('SELECT * FROM reservations WHERE ? BETWEEN start_date AND end_date', $date);
+    return $query->result();
+  }
+
   function get_reservation($id)
   {
     $query = $this->db->get_where('reservation', array('id' => $id) );
