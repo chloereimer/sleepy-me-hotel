@@ -6,6 +6,7 @@ class Admin extends CI_Controller {
   {
     parent::__construct();
     $this->load->model('Room');
+    $this->load->model('Reservation');
   }
 
   public function index()
@@ -95,6 +96,12 @@ class Admin extends CI_Controller {
       $this->session->set_flashdata('message', "Room successfully deleted." );
       redirect('/admin/index_rooms', 'refresh');
     }
+
+  }
+
+  public function index_reservations(){
+
+    $this->template->show('/admin/index_reservations');
 
   }
 
