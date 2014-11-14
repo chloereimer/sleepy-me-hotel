@@ -198,10 +198,14 @@ class Admin extends CI_Controller {
 
   }
 
-  public function reservation_room_detail(){
+  public function reservation_detail_detail(){
 
-    $args['room'] = $this->Room->get_room( $this->uri->segment(3) );
-    $this->load->view('reservations/room_info', $args);
+    $reservation = $this->Reservation->get_reservation( $this->uri->segment(3) );
+    $reservation->room = $this->Room->get_room($reservation->room_id);
+    $reservation->customer = $this->Customer->get_customer($reservation->customer_id);
+
+    $args['reservation'] = $reservation;
+    $this->load->view('admin/reservation_detail_detail', $args);
 
   }
 

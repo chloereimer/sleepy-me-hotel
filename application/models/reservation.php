@@ -26,7 +26,7 @@ class Reservation extends CI_Model {
 
   function get_reservation($id)
   {
-    $query = $this->db->get_where('reservation', array('id' => $id) );
+    $query = $this->db->get_where('reservations', array('id' => $id) );
     return $query->row();
   }
 

@@ -8,7 +8,7 @@
 
   <ul class="reservation-list">
     <?php foreach ($reservations as $reservation) : ?>
-      <li class="reservation" data-room="<?php echo $reservation->room->id ?>"> <strong>Room <?php echo $reservation->room->number; ?>, <?php echo $reservation->room->name; ?></strong> reserved by <?php echo $reservation->customer->first_name . " " . $reservation->customer->last_name ?></li>
+      <li class="reservation" data-reservation="<?php echo $reservation->id ?>"> <strong>Room <?php echo $reservation->room->number; ?>, <?php echo $reservation->room->name; ?></strong> reserved by <?php echo $reservation->customer->first_name . " " . $reservation->customer->last_name ?></li>
     <?php endforeach; ?>
   </ul>
 
@@ -24,7 +24,7 @@
 
     $('.reservation').on('click', function(){
 
-      $('.modal-content').load('<?php echo site_url("admin/reservation_room_detail") ?>/' + $(this).data('room'), function(){
+      $('.modal-content').load('<?php echo site_url("admin/reservation_detail_detail") ?>/' + $(this).data('reservation'), function(){
         $('.modal').fadeIn(100);
       });
 
