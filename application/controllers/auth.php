@@ -63,8 +63,17 @@ class Auth extends CI_Controller {
 			{
 				//if the login is successful
 				//redirect them back to the home page
+        $this->session->set_flashdata('messageType', 'success');
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('/', 'refresh');
+        if ( $this->ion_auth->in_group('owners') ){
+          redirect('admin/index_users', 'refresh');
+        } else if ( $this->ion_auth->in_group('managers') ){
+          redirect('admin/index_rooms', 'refresh');
+        } else if ( $this->ion_auth->in_group('frontdesk') ){
+          redirect('admin/index_reservations', 'refresh');
+        } else {
+          redirect('admin','refresh');
+        }
 			}
 			else
 			{
@@ -90,7 +99,7 @@ class Auth extends CI_Controller {
 				'type' => 'password',
 			);
 
-			$this->_render_page('auth/login', $this->data);
+			$this->template->show('auth/login', $this->data);
 		}
 	}
 
