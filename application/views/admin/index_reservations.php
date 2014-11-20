@@ -1,5 +1,21 @@
 <section class="content">
 
+  <nav class="admin_navigation">
+      <ul>
+        You are logged in as <strong><?php echo $identity; ?></strong>. Try your privileges on these pages:
+        <li>
+          <a href="<?php echo site_url('/admin/index_users'); ?>">Users</a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('/admin/index_rooms'); ?>">Rooms</a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('/admin/index_reservations'); ?>">Reservations</a>
+        </li>
+        Or you can <a href="<?php echo site_url('/admin/logout'); ?>">logout</a>.
+      </ul>
+  </nav>
+
   <p><strong>Note:</strong> You can reset the database, if necessary, <a href="reset_database">here</a>.</p>
 
   <div class="reservations-calendar">

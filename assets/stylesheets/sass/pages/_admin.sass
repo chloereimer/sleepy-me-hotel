@@ -12,3 +12,22 @@
 
 .reservation
   display: block
+
+.admin_navigation
+
+  margin-bottom: 1rem
+
+  ul
+
+    display: inline
+
+  li
+
+    display: inline
+
+    &:not(:last-of-type) a:after
+      content: ","
+      color: #444
+
+    &:last-of-type a:after
+      content: "."

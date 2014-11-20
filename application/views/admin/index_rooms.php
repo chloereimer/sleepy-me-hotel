@@ -1,5 +1,21 @@
 <section class="content">
 
+  <nav class="admin_navigation">
+      <ul>
+        You are logged in as <strong><?php echo $identity; ?></strong>. Try your privileges on these pages:
+        <li>
+          <a href="<?php echo site_url('/admin/index_users'); ?>">Users</a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('/admin/index_rooms'); ?>">Rooms</a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('/admin/index_reservations'); ?>">Reservations</a>
+        </li>
+        Or you can <a href="<?php echo site_url('/admin/logout'); ?>">logout</a>.
+      </ul>
+  </nav>
+
   <h1>Manage Rooms</h1>
 
   <div class="actions"><a href="<?php echo site_url('/admin/new_room'); ?>" class="button">Add a New Room</a></div>
