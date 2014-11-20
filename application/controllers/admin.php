@@ -17,6 +17,7 @@ class Admin extends CI_Controller {
 
   public function index()
   {
+    $args['logged_in'] = $this->ion_auth->logged_in();
     $args['identity'] = $this->session->userdata('identity');
     $this->template->show('admin', $args);
   }

@@ -12,6 +12,7 @@
         <li>
           <a href="<?php echo site_url('/admin/index_reservations'); ?>">Reservations</a>
         </li>
+        Or you can <a href="<?php echo site_url('/admin/logout'); ?>">logout</a>.
       </ul>
   </nav>
 

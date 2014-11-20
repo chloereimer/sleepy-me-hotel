@@ -2,7 +2,40 @@
   <h1><?php echo lang('login_heading');?></h1>
   <p><?php echo lang('login_subheading');?></p>
 
-  <div id="infoMessage"><?php echo $message;?></div>
+  <p>Log in below using the information in this table. (Note: This table is static for debugging purposes. The dynamic table can be seen when you log in as an owner and access the "Users" page.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Username
+        </th>
+        <th>
+          Password
+        </th>
+        <th>
+          Privilege Level
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>owner@owner.com</td>
+        <td>password</td>
+        <td>owner</td>
+      </tr>
+      <tr>
+        <td>manager@manager.com</td>
+        <td>password</td>
+        <td>manager</td>
+      </tr>
+      <tr>
+        <td>frontdesk@frontdesk.com</td>
+        <td>password</td>
+        <td>frontdesk</td>
+      </tr>
+    </tbody>
+  </table>
 
   <?php echo form_open("auth/login");?>
 
