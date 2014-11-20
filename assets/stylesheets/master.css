@@ -526,4 +526,16 @@ a {
 .reservation {
   display: block; }
 
+.admin_navigation {
+  margin-bottom: 1rem; }
+  .admin_navigation ul {
+    display: inline; }
+  .admin_navigation li {
+    display: inline; }
+    .admin_navigation li:not(:last-of-type) a:after {
+      content: ",";
+      color: #444; }
+    .admin_navigation li:last-of-type a:after {
+      content: "."; }
+
 /*# sourceMappingURL=master.css.map */

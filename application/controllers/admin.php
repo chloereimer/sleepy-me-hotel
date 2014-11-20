@@ -6,6 +6,9 @@ class Admin extends CI_Controller {
   {
 
     parent::__construct();
+
+    $this->load->library('ion_auth');
+
     $this->load->model('Room');
     $this->load->model('Reservation');
     $this->load->model('Customer');
@@ -14,198 +17,308 @@ class Admin extends CI_Controller {
 
   public function index()
   {
-    $this->template->show('admin');
+    $args['identity'] = $this->session->userdata('identity');
+    $this->template->show('admin', $args);
+  }
+
+  public function login(){
+    redirect('auth/login');
+  }
+
+  public function logout(){
+    if ($this->ion_auth->logged_in()) {
+      $this->ion_auth->logout();
+      $this->session->set_flashdata('messageType', 'success');
+      $this->session->set_flashdata('message', 'Logged out successfully.');
+    }
+    redirect('admin/index');
+  }
+
+  // users .....................................................................
+
+  public function index_users(){
+    $group = array('owners');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner to view that page');
+      redirect('admin/index');
+    } else {
+      $args['users'] = $this->ion_auth->users()->result();
+      foreach ($args['users'] as $k => $user)
+      {
+        $args['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+      }
+      $args['identity'] = $this->session->userdata('identity');
+      $this->template->show('admin/index_users', $args );
+    }
   }
 
   // rooms .....................................................................
 
   public function index_rooms()
-  {
-    $rooms = $this->Room->get_rooms();
-    $this->template->show('admin/index_rooms', array( 'rooms' => $rooms ));
+  { 
+    $group = array('owners', 'managers');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner or a manager to view that page');
+      redirect('admin/index');
+    } else {
+      $args['identity'] = $this->session->userdata('identity');
+      $args['rooms'] = $this->Room->get_rooms();
+      $this->template->show('admin/index_rooms', $args);
+    }
   }
 
   public function show_room()
   {
-    $id = $this->uri->segment(3);
-    $room = $this->Room->get_room($id);
-    $this->template->show('admin/show_room', array( 'room' => $room ));
+    $group = array('owners', 'managers');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner or a manager to view that page');
+      redirect('admin/index');
+    } else {
+      $id = $this->uri->segment(3);
+      $room = $this->Room->get_room($id);
+      $this->template->show('admin/show_room', array( 'room' => $room ));
+    }
   }
 
   public function new_room()
   {
-    $this->load_rooms_form();
-    $this->template->show('admin/new_room');
+    $group = array('owners', 'managers');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner or a manager to view that page');
+      redirect('admin/index');
+    } else {
+      $this->load_rooms_form();
+      $this->template->show('admin/new_room');
+    }
   }
 
   public function edit_room()
   {
-    $this->load_rooms_form();
-    $id = $this->uri->segment(3);
-    $room = $this->Room->get_room($id);
-    $this->template->show('admin/edit_room', array( 'room' => $room ) );
+    $group = array('owners', 'managers');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner or a manager to view that page');
+      redirect('admin/index');
+    } else {
+      $this->load_rooms_form();
+      $id = $this->uri->segment(3);
+      $room = $this->Room->get_room($id);
+      $this->template->show('admin/edit_room', array( 'room' => $room ) );
+    }
   }
 
   public function save_room()
   {
-    $this->load_rooms_form();
-
-    $config = array( 'upload_path' => './uploads/', 'allowed_types' => 'jpg|jpeg|png', 'file_name' => md5(uniqid(mt_rand())) );
-    $this->load->library('upload', $config );
-
-    if( $this->form_validation->run() == false ){
-
-      $id = $this->input->post('id');
-
-      if ( !empty( $id ) )  {
-        $this->template->show('admin/edit_room/' . $this->input->post('id') );
-      } else {
-        $this->template->show('admin/new_room');
-      }
-
+    $group = array('owners', 'managers');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner or a manager to view that page');
+      redirect('admin/index');
     } else {
+      $this->load_rooms_form();
 
-      if( $this->Room->save_room( $this->input->post('id') ) ){
+      $config = array( 'upload_path' => './uploads/', 'allowed_types' => 'jpg|jpeg|png', 'file_name' => md5(uniqid(mt_rand())) );
+      $this->load->library('upload', $config );
 
-        // upload the featured image
-        if( $this->upload->do_upload('image') ){
-          $data = $this->upload->data();
-          $file_name = $data['file_name'];
-          $this->Room->set_featured_image( $this->input->post('id') , $file_name );
+      if( $this->form_validation->run() == false ){
+
+        $id = $this->input->post('id');
+
+        if ( !empty( $id ) )  {
+          $this->template->show('admin/edit_room/' . $this->input->post('id') );
+        } else {
+          $this->template->show('admin/new_room');
         }
 
-        $this->session->set_flashdata('messageType', 'success');
-        $this->session->set_flashdata('message', "Room successfully saved.");
-        redirect('/admin/index_rooms', 'refresh');
-
       } else {
 
-        // todo: destroy the featured image
+        if( $this->Room->save_room( $this->input->post('id') ) ){
 
-        $this->session->set_flashdata('messageType', 'error');
-        $this->session->set_flashdata('message', "Room could not be saved.");
-        redirect('/admin/index_rooms', 'refresh');
+          // upload the featured image
+          if( $this->upload->do_upload('image') ){
+            $data = $this->upload->data();
+            $file_name = $data['file_name'];
+            $this->Room->set_featured_image( $this->input->post('id') , $file_name );
+          }
+
+          $this->session->set_flashdata('messageType', 'success');
+          $this->session->set_flashdata('message', "Room successfully saved.");
+          redirect('/admin/index_rooms', 'refresh');
+
+        } else {
+
+          // todo: destroy the featured image
+
+          $this->session->set_flashdata('messageType', 'error');
+          $this->session->set_flashdata('message', "Room could not be saved.");
+          redirect('/admin/index_rooms', 'refresh');
+
+        }
 
       }
-
     }
   }
 
   public function delete_room()
   {
-    $id = $this->uri->segment(3);
-    if( $this->Room->delete_room($id) ){
-      $this->session->set_flashdata('messageType', 'success');
-      $this->session->set_flashdata('message', "Room successfully deleted." );
-      redirect('/admin/index_rooms', 'refresh');
+    $group = array('owners', 'managers');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner or a manager to view that page');
+      redirect('admin/index');
+    } else {
+      $id = $this->uri->segment(3);
+      if( $this->Room->delete_room($id) ){
+        $this->session->set_flashdata('messageType', 'success');
+        $this->session->set_flashdata('message', "Room successfully deleted." );
+        redirect('/admin/index_rooms', 'refresh');
+      }
     }
 
   }
 
   public function index_reservations(){
 
-    $args['max_rooms'] = count( $this->Room->get_rooms() );
-
-    $this->template->show('/admin/index_reservations', $args);
+    $group = array('owners', 'managers', 'frontdesk');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner, manager, or frontdesk agent to view that page');
+      redirect('admin/index');
+    } else {
+      $args['max_rooms'] = count( $this->Room->get_rooms() );
+      $args['identity'] = $this->session->userdata('identity');
+      $this->template->show('/admin/index_reservations', $args);
+    }
 
   }
 
   public function reservation_calendar(){
 
-    $options = array();
+    $group = array('owners', 'managers', 'frontdesk');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner, manager, or frontdesk agent to view that page');
+      redirect('admin/index');
+    } else {
 
-    $options['show_next_prev'] = true;
-    $options['next_prev_url'] = site_url() . '/admin/reservation_calendar/';
+      $options = array();
 
-    $options['template'] = '
-      {table_open}<table>{/table_open}
-      {heading_row_start}<tr>{/heading_row_start}
+      $options['show_next_prev'] = true;
+      $options['next_prev_url'] = site_url() . '/admin/reservation_calendar/';
 
-      {heading_previous_cell}<th><span class="previous_link" data-url="{previous_url}">&lt;&lt;</span></th>{/heading_previous_cell}
-      {heading_title_cell}<th colspan="{colspan}">{heading}</th>{/heading_title_cell}
-      {heading_next_cell}<th><span class="next_link" data-url="{next_url}">&gt;&gt;</span></th>{/heading_next_cell}
+      $options['template'] = '
+        {table_open}<table>{/table_open}
+        {heading_row_start}<tr>{/heading_row_start}
 
-      {heading_row_end}</tr>{/heading_row_end}
+        {heading_previous_cell}<th><span class="previous_link" data-url="{previous_url}">&lt;&lt;</span></th>{/heading_previous_cell}
+        {heading_title_cell}<th colspan="{colspan}">{heading}</th>{/heading_title_cell}
+        {heading_next_cell}<th><span class="next_link" data-url="{next_url}">&gt;&gt;</span></th>{/heading_next_cell}
 
-      {week_row_start}<tr>{/week_row_start}
-      {week_day_cell}<td>{week_day}</td>{/week_day_cell}
-      {week_row_end}</tr>{/week_row_end}
+        {heading_row_end}</tr>{/heading_row_end}
 
-      {cal_row_start}<tr>{/cal_row_start}
-      {cal_cell_start}<td>{/cal_cell_start}
+        {week_row_start}<tr>{/week_row_start}
+        {week_day_cell}<td>{week_day}</td>{/week_day_cell}
+        {week_row_end}</tr>{/week_row_end}
 
-      {cal_cell_content}<span class="day" data-day="{day}" >{day} <small class="booked-room-count rooms-booked-{content}">({content})</small></span>{/cal_cell_content}
-      {cal_cell_content_today}<span class="day today" data-day="{day}" >{day} <small class="booked-room-count rooms-booked-{content}">({content})</small></span>{/cal_cell_content_today}
+        {cal_row_start}<tr>{/cal_row_start}
+        {cal_cell_start}<td>{/cal_cell_start}
 
-      {cal_cell_no_content}<span class="day" data-day="{day}" >{day}</span>{/cal_cell_no_content}
-      {cal_cell_no_content_today}<span class="day today" data-day="{day}" >{day}</span>{/cal_cell_no_content_today}
+        {cal_cell_content}<span class="day" data-day="{day}" >{day} <small class="booked-room-count rooms-booked-{content}">({content})</small></span>{/cal_cell_content}
+        {cal_cell_content_today}<span class="day today" data-day="{day}" >{day} <small class="booked-room-count rooms-booked-{content}">({content})</small></span>{/cal_cell_content_today}
 
-      {cal_cell_blank}&nbsp;{/cal_cell_blank}
+        {cal_cell_no_content}<span class="day" data-day="{day}" >{day}</span>{/cal_cell_no_content}
+        {cal_cell_no_content_today}<span class="day today" data-day="{day}" >{day}</span>{/cal_cell_no_content_today}
 
-      {cal_cell_end}</td>{/cal_cell_end}
-      {cal_row_end}</tr>{/cal_row_end}
+        {cal_cell_blank}&nbsp;{/cal_cell_blank}
 
-      {table_close}</table>{/table_close}
+        {cal_cell_end}</td>{/cal_cell_end}
+        {cal_row_end}</tr>{/cal_row_end}
 
-    ';
+        {table_close}</table>{/table_close}
 
-    $this->load->library( 'calendar' , $options );
+      ';
 
-    $year = $this->uri->segment(3);
-    $month = $this->uri->segment(4);
+      $this->load->library( 'calendar' , $options );
 
-    $data = array();
+      $year = $this->uri->segment(3);
+      $month = $this->uri->segment(4);
 
-    $startDate = new DateTime("$year-$month-1");
-    $endDate = new DateTime("$year-$month-" . $startDate->format('t') );
+      $data = array();
 
-    while( $startDate <= $endDate ){
+      $startDate = new DateTime("$year-$month-1");
+      $endDate = new DateTime("$year-$month-" . $startDate->format('t') );
 
-      $reservations = $this->Reservation->get_reservations_by_date( $startDate->format('Y-m-d') );
+      while( $startDate <= $endDate ){
 
-      if( count( $reservations ) > 0 ){
-        $data[ ltrim($startDate->format('d') , '0') ] = count( $reservations );
+        $reservations = $this->Reservation->get_reservations_by_date( $startDate->format('Y-m-d') );
+
+        if( count( $reservations ) > 0 ){
+          $data[ ltrim($startDate->format('d') , '0') ] = count( $reservations );
+        }
+
+        $startDate->modify('+1 day');
       }
 
-      $startDate->modify('+1 day');
-    }
+      $args['calendar'] = $this->calendar->generate( $year, $month, $data );
+      $this->load->view( 'admin/reservation_calendar', $args );
 
-    $args['calendar'] = $this->calendar->generate( $year, $month, $data );
-    $this->load->view( 'admin/reservation_calendar', $args );
+    }
 
   }
 
   public function reservation_detail(){
 
-    $year = $this->uri->segment(3);
-    $month = $this->uri->segment(4);
-    $day = $this->uri->segment(5);
+    $group = array('owners', 'managers', 'frontdesk');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner, manager, or frontdesk agent to view that page');
+      redirect('admin/index');
+    } else {
 
-    $args['year'] = $year;
-    $args['month'] = $month;
-    $args['day'] = $day;
+      $year = $this->uri->segment(3);
+      $month = $this->uri->segment(4);
+      $day = $this->uri->segment(5);
 
-    $reservations = $this->Reservation->get_reservations_by_date( "$year-$month-$day" );
+      $args['year'] = $year;
+      $args['month'] = $month;
+      $args['day'] = $day;
 
-    foreach ($reservations as $reservation) {
-      $reservation->room = $this->Room->get_room($reservation->room_id);
-      $reservation->customer = $this->Customer->get_customer($reservation->customer_id);
+      $reservations = $this->Reservation->get_reservations_by_date( "$year-$month-$day" );
+
+      foreach ($reservations as $reservation) {
+        $reservation->room = $this->Room->get_room($reservation->room_id);
+        $reservation->customer = $this->Customer->get_customer($reservation->customer_id);
+      }
+
+      $args['reservations'] = $reservations;
+
+      $this->load->view('admin/reservation_detail', $args);
+
     }
-
-    $args['reservations'] = $reservations;
-
-    $this->load->view('admin/reservation_detail', $args);
 
   }
 
   public function reservation_detail_detail(){
 
-    $reservation = $this->Reservation->get_reservation( $this->uri->segment(3) );
-    $reservation->room = $this->Room->get_room($reservation->room_id);
-    $reservation->customer = $this->Customer->get_customer($reservation->customer_id);
+    $group = array('owners', 'managers', 'frontdesk');
+    if (!$this->ion_auth->in_group($group)) {
+      $this->session->set_flashdata('messageType', 'error');
+      $this->session->set_flashdata('message', 'You must be an owner, manager, or frontdesk agent to view that page');
+      redirect('admin/index');
+    } else {
 
-    $args['reservation'] = $reservation;
-    $this->load->view('admin/reservation_detail_detail', $args);
+      $reservation = $this->Reservation->get_reservation( $this->uri->segment(3) );
+      $reservation->room = $this->Room->get_room($reservation->room_id);
+      $reservation->customer = $this->Customer->get_customer($reservation->customer_id);
+
+      $args['reservation'] = $reservation;
+      $this->load->view('admin/reservation_detail_detail', $args);
+
+    }
 
   }
 
