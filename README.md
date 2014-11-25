@@ -14,19 +14,29 @@ When initializing the project (release [1.0.0][1.0.0]), we were tasked with incl
 Contact Page
 ------------
 
-One of the first deliverables was a contact page (introduced in [2.0.0][2.0.0], patched in [2.0.1][2.0.1]), with a contact form and an interactive map. CodeIgniter's included form and validation libraries were used to build the form, and the map was created using the Google Maps JavaScript API.
+One of the first deliverables was a contact page (introduced in [2.0.0][2.0.0], patched in [2.0.1][2.0.1]), with a contact form and an interactive map. CodeIgniter's form and validation libraries were used to build the form, and the map was created using the Google Maps JavaScript API.
 
 Room Management
 ---------------
 
-Release [3.0.0][3.0.0] centred around creating an administration panel, and the ability for administrators to add/edit/remove rooms in the system. Rooms' properties include a name, number, nightly rate, featured image, and description. CKEditor was implemented and configured to allow for rich editing of the description, as well as uploading additional images. Authentication/authorization was not yet implemented, so anonymous users were able to access this functionality.
+Release [3.0.0][3.0.0] centered around creating an administration panel and the ability for administrators to add/edit/remove rooms in the system. Rooms' properties include a name, number, nightly rate, featured image, and description. CKEditor was implemented and configured to allow for rich editing of the description, as well as uploading additional images. Authentication/authorization was not yet implemented, so anonymous users were able to access this "privileged" functionality.
 
 Room Reservation
 ----------------
 
-After Rooms, the next major component of the application is Reservations. In release [4.0.0][4.0.0], functionality was added to allow site visitors to reserve a room for a given period of time. This functionality was achieved with a multi-step form, again using CodeIgniter's inbuilt form and validation libraries. Significant use of AJAX (using jQuery) was used to provide immediate feedback to the user during this project, e.g. informing them whether or not there were rooms available for the time period they selected. [Stripe][stripe] was integrated to handle credit card payments. CodeIgniter's Calendar library was used to generate (server-side) a representation of room availability. Heavy use of CodeIgniter's session library allowed for a smooth, wizard-like feel during the registration process. The final step of reservation provides a PDF receipt, which was generated using [TCPDF][tcpdf].
+After Rooms, the next major component of the application was Reservations. In release [4.0.0][4.0.0], functionality was added to allow site visitors to reserve a room for a given period of time. This functionality was achieved with a multi-step form, again using CodeIgniter's form and validation libraries.
 
-Release [5.0.0][5.0.0] introduced a new section to the Administratino panel, where administrators could view detailed information concerning a reservation.
+Significant use of AJAX (using jQuery's `$.ajax()` and `$.get()`) is used to provide immediate feedback to the user during the reservation process, e.g. informing them whether or not there are rooms available for the time period they selected.
+
+[Stripe][stripe] was integrated to handle credit card payments.
+
+CodeIgniter's Calendar library was used to generate (server-side) a representation of room availability.
+
+Heavy use of CodeIgniter's session library allows for a smooth, wizard-like feel during the registration process.
+
+The final step of reservation provides a PDF receipt, which is generated using [TCPDF][tcpdf].
+
+Release [5.0.0][5.0.0] introduced a new section to the Administration panel, where administrators could view detailed information concerning a reservation.
 
 Authentication & Authorization
 ------------------------------
